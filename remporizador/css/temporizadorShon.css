@@ -1,0 +1,938 @@
+/* Pantalla  del Celular */
+*{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    box-sizing: border-box; 
+    margin: auto;
+    padding: auto;
+ }
+body{
+    margin: 50px;
+    background-color: #8EC5FC;
+    background-image: linear-gradient(62deg, #8EC5FC 0%, #c3fcfc 100%);
+}
+.contenedorCelular{
+    text-align: center;
+    margin: auto;
+    width: 375px;
+    height: 667px;
+    border: solid black 3px;
+    background-color: black;
+    border-radius: 13px;
+    box-shadow: 7px 7px 7px black;
+}
+.marcoCelular{
+    padding-top: 3px;
+    padding-left: 3px;
+    width: 373px;
+    height: 665px;
+    border: solid black 3px;
+    background-color: black;
+    border-radius: 13px;
+}
+.pantallaCelular{
+    position: relative;
+    width: 365px;
+    height: 650px;
+    border: 2px solid rgb(202, 202, 244);
+    background: #07204a; 
+    border-radius: 13px;
+}
+
+.sol{
+    position: absolute;
+    top: 0px;
+    left: 301px;
+    width: 60px;
+    height: 60px;
+    background-color: rgb(253, 253, 252); 
+    border-top-right-radius: 10px;
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol:hover{
+    background-color: rgb(248, 248, 235); 
+}
+.sol1{
+    position: absolute;
+    top: 90px;
+    left: 250px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol2{
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 3px;
+    height: 3px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol3{
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol4{
+    position: absolute;
+    top: 200px;
+    left: 20px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol5{
+    position: absolute;
+    top: 380px;
+    left: 100px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol6{
+    position: absolute;
+    top: 380px;
+    left: 350px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol7{
+    position: absolute;
+    top: 17px;
+    left: 220px;
+    width: 2px;
+    height: 2px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.sol8{
+    position: absolute;
+    top: 200px;
+    left: 290px;
+    width: 3px;
+    height: 3px;
+    background-color: rgb(253, 253, 252); 
+    box-shadow: -10px 5px 20px rgb(248, 248, 247);
+}
+.nube1{
+    position: absolute;
+    top: 20px;
+    left: 100px;
+
+    animation-name: nube-uno;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: infinite; 
+}
+.nube1:hover{
+    left: 102px;
+ }
+.nube2{
+    position: absolute;
+    top: 40px;
+    left: 20px;
+
+    animation-name: nube-dos;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: infinite; 
+}
+.nube2:hover{
+   left: 22px;
+}
+
+#nub1.active,#nub2.active{
+    animation-name: nube-disolver;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1;
+}
+.pasto{
+    position: absolute;
+    width: 361px;
+    top: 557px;
+    left: 0px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.shon0{
+    width: fit-content;
+    position: absolute;
+    top: 500px;
+    left: 16px;
+}
+.shon2{
+    width: fit-content;
+    position: absolute;
+    top: 515px;
+    left: 92px;
+}
+.shon0.moverCuerpo,.shon2.moverCuerpo{
+    animation-name: cuerpo-shon;
+    animation-duration: 4s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1; 
+}
+.cabezaShon0,.cabezaShon2{
+    width: fit-content;
+    position: absolute;
+    top: -35px;
+    left: 10px;
+}
+.cabezaShon0.moverCabeza,.cabezaShon1.moverCabeza,.cabezaShon2.moverCabeza{
+    animation-name: cabeza-shon;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out forwards;  
+    animation-iteration-count: 1; 
+}
+.suelo0{
+    width: fit-content;
+    position: absolute;
+    top: 470px;
+    left: 80px;
+}
+.suelo0:hover{
+    top: 468px;
+}
+.suelo1{
+    width: fit-content;
+    position: absolute;
+    top: 460px;
+    left: 7px;
+}
+.suelo1:hover{
+    top: 458px;
+}
+.suelo2{
+    width: fit-content;
+    position: absolute;
+    top: 520px;
+    left: 25px;
+}
+.suelo2:hover{
+    top: 518px;
+}
+.suelo3{
+    width: fit-content;
+    position: absolute;
+    top: 520px;
+    left: 100px;
+}
+.suelo3:hover{
+    top: 518px;
+}
+#al1{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 260px;
+}
+#al2{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 260px;
+}
+#al1.vuelo1,#al2.vuelo1{
+    animation-name: alas-vuelo1;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1; 
+}
+#al3{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 265px;
+}
+#al4{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 265px;
+}
+#al3.vuelo2,#al4.vuelo2{
+    animation-name: alas-vuelo2;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-out;  
+    animation-iteration-count: 1; 
+}
+#al5{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 270px;
+}
+#al6{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 270px;
+}
+#al5.vuelo3,#al6.vuelo3{
+    animation-name: alas-vuelo3;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1; 
+}
+#al7{
+    width: fit-content;
+    position: absolute;
+    top: 485px;
+    left: 260px;
+}
+#al8{
+    width: fit-content;
+    position: absolute;
+    top: 485px;
+    left: 260px;
+}
+#al7.vuelo4,#al8.vuelo4{
+    animation-name: alas-vuelo4;
+    animation-duration: 1.3s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1; 
+}
+#al9{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 300px;
+}
+#al10{
+    width: fit-content;
+    position: absolute;
+    top: 480px;
+    left: 300px;
+}
+#al9.vuelo5,#al10.vuelo5{
+    animation-name: alas-vuelo5;
+    animation-duration: 1.5s;
+    animation-timing-function: ease-in-out;  
+    animation-iteration-count: 1; 
+}
+.alas1{
+    animation-name: alas-uno;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.alas2{
+    animation-name: alas-dos;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite; 
+}
+.arbol{
+    width: fit-content;
+    position: absolute;
+    top: 370px; 
+    left: 190px;
+}
+.arbol:hover{
+    top: 368px;
+}
+.contenedorShon1{
+    position: relative;
+    text-align: center;
+    top: 530px; 
+    left: 140px;
+    height: 120px;
+    width: 60px;
+}
+.contenedorShon1.caminar{
+    animation-name: caminar-shon;
+    animation-duration: 3.5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: 1; 
+}
+.cabezaShon1{
+    position: absolute;
+    top: 0px;
+    left: 5px;
+}
+.shon1{
+    position: absolute;
+    top: 32px;
+    left: 5px;
+
+    animation-name: shon-uno;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite; 
+}
+.patita1{
+    position: absolute;
+    top: 72px;
+    left: -7px; 
+}
+.patita2{
+    position: absolute;
+    top: 74px;
+    left: 20px; 
+}
+.patita3{
+    position: absolute;
+    top: 72px;
+    left: 33px; 
+}
+.patita1.active1,.patita3.active1{
+    animation-name: patita-uno;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: 7; 
+}
+.patita2.active2{
+    animation-name: patita-dos;
+    animation-duration: .6s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: 7;  
+}
+.explosion{
+    position: absolute;
+    top: 550px;
+    left: 65px;
+    width: 58px;
+    height: 58px;
+}
+.polv1,.polv2,.polv3,.polv4,.polv5,.polv6,.polv7,.polv8{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+.polv9,.polv10{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+.polv11,.polv12,.polv13{
+    position: absolute;
+    top: 20px;
+    left: 10px;
+}
+.polv1,.polv13{
+    animation-name: polv-uno;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv2,.polv9{
+    animation-name: polv-dos;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv3,.polv8{
+    animation-name: polv-tres;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv4,.polv10,.polv9{
+    animation-name: polv-cuatro;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv5,.polv12{
+    animation-name: polv-cinco;
+    animation-duration: .5s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv6{
+    animation-name: polv-seis;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.polv7,.polv11{
+    animation-name: polv-siete;
+    animation-duration: 1s;
+    animation-timing-function: ease-in-out; 
+    animation-iteration-count: infinite;  
+}
+.tnt{
+    position: absolute;
+    top: 550px;
+    left: 60px;
+}
+.tnt.bombaFase1{
+    animation-name: tnt-expl;
+    animation-duration: 5s;
+    animation-iteration-count: 1; 
+}
+.cuboBlanco{
+    position: absolute;
+    top: 550px;
+    left: 60px;
+    opacity: 0;
+}
+.cuboBlanco:hover{
+    opacity: 0.1;
+}
+.cuboBlanco.bombaFase2{
+    animation-name: cubo-blanco;
+    animation-duration: 2.5s;
+    animation-iteration-count: 1; 
+}
+.config{
+    position: absolute;
+    top: 600px;
+    left: 5px;
+}
+.sonido{
+    position: absolute;
+    top: 560px;
+    left: 5px;
+}
+.sonido:hover{
+    top: 563px;
+}
+.config:hover{
+    top: 598px;
+}
+.sonidoNulo{
+    position: absolute;
+    opacity: 0;
+    top: 560px;
+    left: 5px;  
+}
+.rocaTemp{
+    position: absolute;
+    top: 140px;
+    left: 100px;
+}
+.rocaArcoiris{
+    position: absolute;
+    top: 140px;
+    left: 100px;
+    opacity: 0;
+}
+.rocaArcoiris:hover{
+    opacity: 0.1;
+}
+.tiempo{
+    position: absolute;
+    top: 210px;
+    left: 103px;
+    font-size: 40px;
+    font-weight: bold;
+    color:yellow;
+}
+
+@keyframes nube-uno{
+    0%{
+        top: 20px;
+    }
+    50%{
+        top: 23px;
+    }
+    100%{
+        top: 20px;
+    }
+}
+
+@keyframes nube-dos{
+    0%{
+        top: 43px;
+    }
+    50%{
+        top: 40px;
+    }
+    100%{
+        top: 43px;
+    }
+}
+@keyframes nube-disolver {
+    0%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+    
+}
+@keyframes alas-uno{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(-10deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes alas-dos{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(15deg);
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+@keyframes alas-vuelo1 {
+    0%{
+        top: 480px;
+    }
+    50%{
+        top: 300px;
+    }
+    100%{
+        top: 290px;
+    }
+}
+
+@keyframes alas-vuelo2 {
+    0%{
+        top: 480px;
+        left: 256px;
+    }
+    50%{
+        top: 300px;
+        left: 200px;
+    }
+    100%{
+        top: 290px;
+        left: 150px;
+    }
+}
+
+@keyframes alas-vuelo3 {
+    0%{
+        top: 480px;
+        left: 270px;
+    }
+    50%{
+        top: 470px;
+        left: 170px;
+    }
+    100%{
+        top: 460px;
+        left: 100px;
+    }
+}
+@keyframes alas-vuelo4 {
+    0%{
+        top: 450px;
+        left: 270px;
+    }
+    50%{
+        top: 430px;
+        left: 170px;
+    }
+    100%{
+        top: 400px;
+        left: 100px;
+    }
+}
+@keyframes alas-vuelo5{
+    0%{
+        top: 450px;
+        left: 270px;
+    }
+    50%{
+        top: 390px;
+        left: 170px;
+    }
+    100%{
+        top: 300px;
+        left: 100px;
+    }
+}
+@keyframes caminar-shon {
+    0%{
+        left: 140px;
+    }
+    15%{
+        left: 110px;
+    }
+    25%{
+        left: 80px;
+    }
+    35%{
+        left: 50px;
+    }
+    45%{
+        left: 20px;
+    }
+    55%{
+        left: 15px;
+    }
+    100%{
+        left: 14px;
+    }
+}
+@keyframes shon-uno{
+    0%{
+        top: 33px;
+    }
+    25%{
+        top: 34px;
+    }
+    100%{
+        top: 33px;
+    }
+} 
+
+@keyframes patita-uno{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(-15deg);
+        top: 71px;
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes patita-dos{
+    0%{
+        transform: rotate(0deg);
+    }
+    25%{
+        transform: rotate(15deg);
+         top: 73px;
+    }
+    100%{
+        transform: rotate(0deg);
+    }
+} 
+
+@keyframes cabeza-shon{
+    0% {
+        opacity: 0; /*Inicia invisible*/
+        transform: scaleX(1);
+    }
+    10% {
+        opacity: 1;
+        transform: scaleX(-1);
+    }
+    25% {
+        transform: scaleX(-1);
+    }
+    50% {
+        transform: scaleX(-1);
+    }
+    100% {
+        transform: scaleX(-1);
+    }
+}
+@keyframes cuerpo-shon {
+    0%{
+        top: 500px;
+    }
+    50%{
+        top:450px;
+    }
+    100%{
+        top:505px;
+    }
+}
+
+@keyframes cubo-blanco {
+    0%{
+        opacity: 0;
+    }
+    15%{
+        opacity: 1;
+    }
+    30%{
+        opacity: 0;
+    }
+    45%{
+        opacity: 1;
+    }
+    50%{
+        opacity: 0;
+    }
+    55%{
+        opacity: 1;
+    }
+    60%{
+        opacity: 0;
+    }
+    65%{
+        opacity: 1;
+    }
+    70%{
+        opacity: 0;
+    }
+    75%{
+        opacity: 1;
+    }
+    80%{
+        opacity: 0;
+    }
+    85%{
+        opacity: 1;
+    }
+    90%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+@keyframes tnt-expl {
+    0%{
+        opacity: 1;
+    }
+    25%{
+        opacity: 1;
+    }
+    30%{
+        opacity: 1;
+    }
+    35%{
+        opacity: 1;
+    }
+    60%{
+        opacity: 0;
+    }
+    65%{
+        opacity: 0;
+    }
+    75%{
+        opacity: 0;
+    }
+    85%{
+        opacity: 0;
+    }
+    95%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+@keyframes polv-uno {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        top: 30px;
+        left: 13px;
+        opacity: 1;
+    }
+    100%{
+        top: 35px;
+        left: 17px;
+        opacity: 0;
+    }
+}
+@keyframes polv-dos {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        top: 20px;
+        left: 15px;
+        opacity: 1;
+    }
+    100%{
+        top: 15px;
+        left: 20px;
+        opacity: 0;
+    }
+}
+@keyframes polv-tres {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        top: 20px;
+        left: 5px;
+        opacity: 1;
+    }
+    100%{
+        top: 15px;
+        left: 0px;
+        opacity: 0;
+    }
+}
+@keyframes polv-cuatro {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        left: 20px;
+        opacity: 1;
+    }
+    100%{
+        left: 30px;
+        opacity: 0;
+    }
+}
+@keyframes polv-cinco {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        left: 20px;
+        opacity: 1;
+    }
+    100%{
+        left: 17px;
+        opacity: 0;
+    }
+}
+@keyframes polv-seis {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        top: 40px;
+        opacity: 1;
+    }
+    100%{
+        top: 50px;
+        opacity: 0;
+    }
+}
+@keyframes polv-siete {
+    0%{
+        top: 25px;
+        left: 10px;
+        opacity: 1;
+    }
+    50%{
+        top: 10px;
+        opacity: 1;
+    }
+    100%{
+        top: -5px;
+        opacity: 0;
+    }
+}

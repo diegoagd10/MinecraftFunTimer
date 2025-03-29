@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/temporizadorShon.css" />
+    <title>Temporizador</title>
+  </head>
+  <body>
+    <div class="contenedorCelular">
+      <div class="marcoCelular">
+        <div class="pantallaCelular" id="pantalla">
+          <div onclick="diaNoche()" class="sol"></div>
+          <div class="sol1"></div>
+          <div class="sol2"></div>
+          <div class="sol3"></div>
+          <div class="sol4"></div>
+          <div class="sol5"></div>
+          <div class="sol6"></div>
+          <div class="sol7"></div>
+          <div class="sol8"></div>
+          <div id="nub1">
+            <img
+              class="nube1"
+              onclick="disolverNube()"
+              src="../images/nube.png"
+              alt=""
+            />
+          </div>
+          <div id="nub2">
+            <img
+              class="nube2"
+              onclick="disolverNube()"
+              src="../images/nube2.png"
+              alt=""
+            />
+          </div>
+          <div class="pasto1">
+            <img class="pasto" src="../images/pasto.png" alt="" />
+          </div>
+          <div class="shon0">
+            <img src="../images/cuerpoShon.png" alt="" />
+            <img class="cabezaShon0" src="../images/cabezaShon.png" alt="" />
+          </div>
+          <div class="shon2">
+            <img src="../images/cuerpoShon.png" alt="" />
+            <img class="cabezaShon2" src="../images/cabezaShon.png" alt="" />
+          </div>
+          <div class="suelo0">
+            <img src="../images/suoperficie1.png" alt="" />
+          </div>
+          <div class="suelo1">
+            <img src="../images/suoperficie1.png" alt="" />
+          </div>
+          <div class="suelo2">
+            <img src="../images/suoperficie2.png" alt="" />
+          </div>
+          <div class="suelo3">
+            <img src="../images/suoperficie2.png" alt="" />
+          </div>
+          <div id="al1">
+            <img class="alas1" src="../images/mariposa2.png" alt="" />
+          </div>
+          <div id="al2">
+            <img class="alas2" src="../images/mariposa1.png" alt="" />
+          </div>
+          <div id="al3">
+            <img class="alas1" src="../images/mariposa3.png" alt="" />
+          </div>
+          <div id="al4">
+            <img class="alas2" src="../images/mariposa4.png" alt="" />
+          </div>
+          <div id="al5">
+            <img class="alas1" src="../images/mariposa5.png" alt="" />
+          </div>
+          <div id="al6">
+            <img class="alas2" src="../images/mariposa6.png" alt="" />
+          </div>
+          <div id="al7">
+            <img class="alas1" src="../images/mariposa7.png" alt="" />
+          </div>
+          <div id="al8">
+            <img class="alas2" src="../images/mariposa8.png" alt="" />
+          </div>
+          <div id="al9">
+            <img class="alas1" src="../images/mariposa9.png" alt="" />
+          </div>
+          <div id="al10">
+            <img class="alas2" src="../images/mariposa10.png" alt="" />
+          </div>
+          <div class="arbol">
+            <img src="../images/arbol.png" alt="" />
+          </div>
+          <div class="contenedorShon1">
+            <img class="patita3" src="../images/Patita3.png" />
+            <img class="cabezaShon1" src="../images/cabezaShon.png" alt="" />
+            <img class="shon1" src="../images/cuerpoShon1.png" alt="" />
+            <img class="patita1" src="../images/Patita1.png" alt="" />
+            <img class="patita2" src="../images/Patita2.png" alt="" />
+          </div>
+          <div class="explosion">
+            <div class="polv1">
+              <img src="../images/polv1.png" alt="" />
+            </div>
+            <div class="polv2">
+              <img src="../images/polv2.png" alt="" />
+            </div>
+            <div class="polv3">
+              <img src="../images/polv3.png" alt="" />
+            </div>
+            <div class="polv4">
+              <img src="../images/polv4.png" alt="" />
+            </div>
+            <div class="polv5">
+              <img src="../images/polv5.png" alt="" />
+            </div>
+            <div class="polv6">
+              <img src="../images/polv6.png" alt="" />
+            </div>
+            <div class="polv7">
+              <img src="../images/polv7.png" alt="" />
+            </div>
+            <div class="polv8">
+              <img src="../images/polv8.png" alt="" />
+            </div>
+            <div class="polv9">
+              <img src="../images/polv9.png" alt="" />
+            </div>
+            <div class="polv10">
+              <img src="../images/polv10.png" alt="" />
+            </div>
+            <div class="polv11">
+              <img src="../images/polv11.png" alt="" />
+            </div>
+            <div class="polv12">
+              <img src="../images/polv12.png" alt="" />
+            </div>
+            <div class="polv13">
+              <img src="../images/polv13.png" alt="" />
+            </div>
+          </div>
+          <div class="tnt">
+            <img src="../images/tnt.png" alt="" />
+          </div>
+          <div class="cuboBlanco">
+            <img src="../images/cuboBlanco.png" alt="" />
+          </div>
+          <div>
+            <img
+              class="config"
+              onclick="ventanaDeConfiguracion()"
+              src="../images/gears.png"
+              alt=""
+            />
+            <img class="sonido" src="../images/bocina.png" />
+            <img
+              class="sonidoNulo"
+              onclick="activarSonido()"
+              src="../images/bocinaBlock.png"
+              alt=""
+            />
+          </div>
+          <div class="temp">
+            <img class="rocaTemp" src="../images/rocaTemp.png" alt="" />
+            <img class="rocaArcoiris" src="../images/rocaArcoiris.png" alt="" />
+            <p class="tiempo">00:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="../javascript/temporizadorShon.js"></script>
+</html>
