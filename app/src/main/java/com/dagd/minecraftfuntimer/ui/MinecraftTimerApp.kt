@@ -1,6 +1,7 @@
 package com.dagd.minecraftfuntimer.ui
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +14,7 @@ import androidx.compose.ui.zIndex
 import com.dagd.minecraftfuntimer.ui.components.Creeper
 import com.dagd.minecraftfuntimer.ui.components.Ground
 import com.dagd.minecraftfuntimer.ui.components.SkyBackground
+import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 
@@ -40,6 +42,19 @@ fun MinecraftTimerApp() {
                 .align(Alignment.BottomCenter)
                 .zIndex(5f)
         )
+
+        // TNT block - positioned at bottom left similar to HTML implementation
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 50.dp, start = 60.dp)
+                .zIndex(10f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Tnt(
+                modifier = Modifier.size(60.dp)
+            )
+        }
 
         // Tree
         Box(
