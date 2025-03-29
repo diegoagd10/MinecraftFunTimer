@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.dagd.minecraftfuntimer.ui.components.CircularTimer
 import com.dagd.minecraftfuntimer.ui.components.Cloud
 import com.dagd.minecraftfuntimer.ui.components.CloudType
 import com.dagd.minecraftfuntimer.ui.components.Creeper
@@ -36,6 +37,7 @@ fun MinecraftTimerApp() {
         RenderSun()
         RenderClouds()
         RenderStars()
+        RenderCircularTimer()
         Ground(
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -69,6 +71,23 @@ private fun RenderSun() {
     ) {
         Sun(
             modifier = Modifier.size(60.dp)
+        )
+    }
+}
+
+@Composable
+private fun RenderCircularTimer() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .zIndex(4f)
+            .padding(top = 150.dp),
+        contentAlignment = Alignment.TopCenter
+    ) {
+        CircularTimer(
+            modifier = Modifier.size(240.dp),
+            progress = 0f,
+            timeText = "00:00"
         )
     }
 }
