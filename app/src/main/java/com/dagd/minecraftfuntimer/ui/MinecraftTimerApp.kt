@@ -14,6 +14,8 @@ import androidx.compose.ui.zIndex
 import com.dagd.minecraftfuntimer.ui.components.Creeper
 import com.dagd.minecraftfuntimer.ui.components.Ground
 import com.dagd.minecraftfuntimer.ui.components.SkyBackground
+import com.dagd.minecraftfuntimer.ui.components.Surface
+import com.dagd.minecraftfuntimer.ui.components.SurfaceType
 import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
@@ -42,13 +44,66 @@ fun MinecraftTimerApp() {
                 .align(Alignment.BottomCenter)
                 .zIndex(5f)
         )
+        
+        // Single mountain surface block
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 100.dp, start = 25.dp)
+                .zIndex(10f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Surface(
+                modifier = Modifier.size(width = 70.dp, height = 120.dp),
+                surfaceType = SurfaceType.TYPE_1
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 75.dp, start = 45.dp)
+                .zIndex(11f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Surface(
+                modifier = Modifier.size(width = 50.dp, height = 80.dp),
+                surfaceType = SurfaceType.TYPE_2
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 100.dp, start = 95.dp)
+                .zIndex(10f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Surface(
+                modifier = Modifier.size(width = 65.dp, height = 100.dp),
+                surfaceType = SurfaceType.TYPE_1
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(bottom = 75.dp, start = 120.dp)
+                .zIndex(11f),
+            contentAlignment = Alignment.BottomStart
+        ) {
+            Surface(
+                modifier = Modifier.size(width = 50.dp, height = 80.dp),
+                surfaceType = SurfaceType.TYPE_2
+            )
+        }
 
         // TNT block - positioned at bottom left similar to HTML implementation
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 50.dp, start = 60.dp)
-                .zIndex(10f),
+                .padding(bottom = 70.dp, start = 73.dp)
+                .zIndex(12f),
             contentAlignment = Alignment.BottomStart
         ) {
             Tnt(
