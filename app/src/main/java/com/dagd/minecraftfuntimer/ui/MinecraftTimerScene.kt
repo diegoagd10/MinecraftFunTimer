@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,6 +34,7 @@ import com.dagd.minecraftfuntimer.ui.components.Surface
 import com.dagd.minecraftfuntimer.ui.components.SurfaceType
 import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
+import com.dagd.minecraftfuntimer.ui.handlers.TreeInteractionHandler
 import com.dagd.minecraftfuntimer.ui.timer.TimerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -48,6 +50,12 @@ fun MinecraftTimerScene(
     onTimerTextClick: () -> Unit,
     onTimerClick: () -> Unit
 ) {
+    val scope = rememberCoroutineScope()
+    val yellowButterflyPaddingBottom = remember { Animatable(330f) }
+    val isYellowButterflyAnimating = remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val soundPlayer = remember { SoundPlayer(context) }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -72,8 +80,17 @@ fun MinecraftTimerScene(
         )
         RenderMountainSurfaces()
         RenderTnt()
-        RenderTree()
-        RenderButterflies()
+        RenderTree(
+            onTreeClick = {
+                TreeInteractionHandler.onTreeClick(
+                    scope,
+                    yellowButterflyPaddingBottom,
+                    isYellowButterflyAnimating,
+                    soundPlayer
+                )
+            }
+        )
+        RenderButterflies(yellowButterflyPaddingBottom = yellowButterflyPaddingBottom.value.toInt())
         RenderCreeper(
             alignment = Alignment.BottomEnd,
             paddingBottom = 50,
@@ -400,7 +417,7 @@ private fun RenderTnt() {
 }
 
 @Composable
-private fun RenderTree() {
+private fun RenderTree(onTreeClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -409,7 +426,8 @@ private fun RenderTree() {
         contentAlignment = Alignment.BottomEnd
     ) {
         Tree(
-            modifier = Modifier.size(width = 200.dp, height = 300.dp)
+            modifier = Modifier.size(width = 200.dp, height = 300.dp),
+            onClick = onTreeClick
         )
     }
 }

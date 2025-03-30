@@ -1,9 +1,9 @@
 package com.dagd.minecraftfuntimer.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -20,9 +20,12 @@ import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
  */
 @Composable
 fun Tree(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
-    Box(modifier = modifier) {
+    Box(
+        modifier = modifier.clickable(onClick = onClick)
+    ) {
         // Tree image
         Image(
             painter = painterResource(id = R.drawable.arbol),

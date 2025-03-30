@@ -1,22 +1,16 @@
 package com.dagd.minecraftfuntimer.ui.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.zIndex
 
 /**
  * Renders a group of butterflies at various positions in the scene.
  */
 @Composable
-fun RenderButterflies() {
+fun RenderButterflies(yellowButterflyPaddingBottom: Int = 440) {
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
-        paddingBottom = 330,
+        paddingBottom = yellowButterflyPaddingBottom,
         paddingEnd = 75,
         zIndex = 9f,
         size = 30,

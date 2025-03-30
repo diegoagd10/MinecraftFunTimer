@@ -20,6 +20,7 @@ class SoundPlayer(private val context: Context) {
     private var cloudSound: MediaPlayer? = null
     private var dayAmbientSound: MediaPlayer? = null
     private var nightAmbientSound: MediaPlayer? = null
+    private var wingSound: MediaPlayer? = null
     
     private var isMuted = false
     private var ambientSoundJob: Job? = null
@@ -146,6 +147,22 @@ class SoundPlayer(private val context: Context) {
     }
     
     /**
+     * Plays the butterfly wing sound when tree is clicked
+     */
+    fun playWingSound() {
+        if (isMuted) return
+        
+        releaseWingSound()
+        wingSound = MediaPlayer.create(context, R.raw.wings).apply {
+            setOnCompletionListener { mp ->
+                mp.release()
+                wingSound = null
+            }
+            start()
+        }
+    }
+    
+    /**
      * Mutes all sounds and stops any playing sounds
      */
     fun muteAllSounds() {
@@ -173,6 +190,7 @@ class SoundPlayer(private val context: Context) {
         releaseCloudSound()
         releaseDayAmbientSound()
         releaseNightAmbientSound()
+        releaseWingSound()
     }
     
     private fun releaseTickingSound() {
@@ -221,5 +239,13 @@ class SoundPlayer(private val context: Context) {
             release()
         }
         nightAmbientSound = null
+    }
+    
+    private fun releaseWingSound() {
+        wingSound?.apply {
+            if (isPlaying) stop()
+            release()
+        }
+        wingSound = null
     }
 } 
