@@ -56,6 +56,9 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
     
+    // System UI Controller
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.34.0")
+    
     testImplementation(libs.junit)
     testImplementation("org.mockito:mockito-core:5.8.0")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")

@@ -28,8 +28,8 @@ fun Ground(
     // For a standard phone (around 640dp height), grass is 93dp
     // Calculate a proportional height for other devices
     // But with a minimum height to ensure visibility
-    val grassHeightPercentage = 0.145f // 93dp / 640dp ≈ 14.5% of screen height
-    val grassHeight = (screenHeight * grassHeightPercentage).dp.coerceAtLeast(70.dp)
+    val grassHeightPercentage = 0.20f // Increased from 0.145f to make it more visible
+    val grassHeight = (screenHeight * grassHeightPercentage).dp.coerceAtLeast(100.dp)
     
     // Grass ground at the bottom with responsive height
     Image(
