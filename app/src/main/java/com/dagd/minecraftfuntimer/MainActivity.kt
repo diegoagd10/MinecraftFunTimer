@@ -1,6 +1,8 @@
 package com.dagd.minecraftfuntimer
 
 import android.os.Bundle
+import android.view.Window
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,12 +21,16 @@ import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
 
 class MainActivity : ComponentActivity() {
-    
+
     private val timerViewModel: TimerViewModel by viewModels()
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        // Keep screen on while the app is running
+        keepScreenOn(window)
+
         setContent {
             MinecraftFunTimerTheme {
                 Box(
@@ -36,6 +42,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    /**
+     * Sets the FLAG_KEEP_SCREEN_ON flag to prevent the screen from turning off
+     * while the timer app is running.
+     */
+    fun keepScreenOn(window: Window) {
+        window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     }
 }
 
