@@ -5,11 +5,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dagd.minecraftfuntimer.ui.components.CircularTimer
 import com.dagd.minecraftfuntimer.ui.components.Cloud
 import com.dagd.minecraftfuntimer.ui.components.CloudType
@@ -24,29 +30,78 @@ import com.dagd.minecraftfuntimer.ui.components.SurfaceType
 import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
+import com.dagd.minecraftfuntimer.ui.timer.TimerSetupScreen
+import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
 
 /**
  * Main composable for the Minecraft themed timer application.
  */
 @Composable
-fun MinecraftTimerApp() {
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {
-        RenderSkyBackground()
-        RenderSun()
-        RenderClouds()
-        RenderStars()
-        RenderCircularTimer()
-        Ground(
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .zIndex(5f)
+fun MinecraftTimerApp(
+    timerViewModel: TimerViewModel = viewModel()
+) {
+    // Get the current timer state
+    val timerState by timerViewModel.timerState.collectAsState()
+    
+    // Track whether we're showing the timer setup screen
+    var showTimerSetup by remember { mutableStateOf(false) }
+    
+    if (showTimerSetup) {
+        // Show the timer setup screen
+        TimerSetupScreen(
+            onTimeConfirmed = { hours, minutes, seconds ->
+                timerViewModel.onTimeSelected(hours, minutes, seconds)
+                timerViewModel.startTimer()
+                showTimerSetup = false
+            },
+            onCancel = {
+                showTimerSetup = false
+            }
         )
-        RenderMountainSurfaces()
-        RenderTnt()
-        RenderTree()
-        RenderCreeper()
+    } else {
+        // Show the main Minecraft timer app
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            RenderSkyBackground()
+            RenderSun()
+            RenderClouds()
+            RenderStars()
+            RenderCircularTimer(
+                progress = timerState.progress,
+                timeText = timerState.timerDisplayText,
+                isRunning = timerState.isRunning,
+                isCompleted = timerState.isCompleted,
+                onTimeTextClick = {
+                    // Only show timer setup if timer is not running
+                    if (!timerState.isRunning) {
+                        showTimerSetup = true
+                    }
+                },
+                onTimerClick = {
+                    // Toggle timer state if we have a valid time
+                    if (timerState.totalTimeMillis > 0) {
+                        if (timerState.isRunning) {
+                            timerViewModel.pauseTimer()
+                        } else {
+                            timerViewModel.startTimer()
+                        }
+                    } else if (!showTimerSetup) {
+                        // If no time is set, show timer setup
+                        showTimerSetup = true
+                    }
+                }
+            )
+            Ground(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .zIndex(5f)
+            )
+            RenderMountainSurfaces()
+            RenderTnt()
+            RenderTree()
+            RenderCreeper()
+        }
     }
 }
 
@@ -76,7 +131,14 @@ private fun RenderSun() {
 }
 
 @Composable
-private fun RenderCircularTimer() {
+private fun RenderCircularTimer(
+    progress: Float = 0f,
+    timeText: String = "00:00",
+    isRunning: Boolean = false,
+    isCompleted: Boolean = false,
+    onTimeTextClick: () -> Unit = {},
+    onTimerClick: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -86,8 +148,12 @@ private fun RenderCircularTimer() {
     ) {
         CircularTimer(
             modifier = Modifier.size(240.dp),
-            progress = 0f,
-            timeText = "00:00"
+            progress = progress,
+            timeText = timeText,
+            isRunning = isRunning,
+            isCompleted = isCompleted,
+            onTimeTextClick = onTimeTextClick,
+            onTimerClick = onTimerClick
         )
     }
 }
