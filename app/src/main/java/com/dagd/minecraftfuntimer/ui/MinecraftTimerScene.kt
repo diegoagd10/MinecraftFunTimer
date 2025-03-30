@@ -1,6 +1,5 @@
 package com.dagd.minecraftfuntimer.ui
 
-import android.content.Context
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
@@ -281,10 +280,10 @@ private fun RenderMountainSurfaces() {
             surfaceType = SurfaceType.TYPE_1,
             onClick = {
                 animateCreeperJump(
-                    scope, 
-                    firstCreeperPaddingBottom, 
-                    150f, 
-                    100f, 
+                    scope,
+                    firstCreeperPaddingBottom,
+                    150f,
+                    100f,
                     soundPlayer,
                     isFirstCreeperAnimating
                 )
@@ -313,10 +312,10 @@ private fun RenderMountainSurfaces() {
             surfaceType = SurfaceType.TYPE_2,
             onClick = {
                 animateCreeperJump(
-                    scope, 
-                    firstCreeperPaddingBottom, 
-                    150f, 
-                    100f, 
+                    scope,
+                    firstCreeperPaddingBottom,
+                    150f,
+                    100f,
                     soundPlayer,
                     isFirstCreeperAnimating
                 )
@@ -337,10 +336,10 @@ private fun RenderMountainSurfaces() {
             surfaceType = SurfaceType.TYPE_1,
             onClick = {
                 animateCreeperJump(
-                    scope, 
-                    secondCreeperPaddingBottom, 
-                    120f, 
-                    80f, 
+                    scope,
+                    secondCreeperPaddingBottom,
+                    120f,
+                    80f,
                     soundPlayer,
                     isSecondCreeperAnimating
                 )
@@ -369,10 +368,10 @@ private fun RenderMountainSurfaces() {
             surfaceType = SurfaceType.TYPE_2,
             onClick = {
                 animateCreeperJump(
-                    scope, 
-                    secondCreeperPaddingBottom, 
-                    120f, 
-                    80f, 
+                    scope,
+                    secondCreeperPaddingBottom,
+                    120f,
+                    80f,
                     soundPlayer,
                     isSecondCreeperAnimating
                 )
@@ -447,14 +446,14 @@ private fun animateCreeperJump(
 ) {
     // Only proceed if the creeper is not already animating
     if (isAnimating.value) return
-    
+
     isAnimating.value = true
-    
+
     scope.launch {
         try {
             // Play the sound when the creeper starts to appear
             soundPlayer?.playCreeperSound()
-            
+
             // Animate creeper moving up - slowed down by 30%
             creeperPaddingBottom.animateTo(
                 targetValue = jumpHeight,

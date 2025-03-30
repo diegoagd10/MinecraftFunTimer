@@ -13,6 +13,8 @@ class SoundPlayer(private val context: Context) {
     private var explosionSound: MediaPlayer? = null
     private var creeperSound: MediaPlayer? = null
     private var cloudSound: MediaPlayer? = null
+    private var dayAmbientSound: MediaPlayer? = null
+    private var nightAmbientSound: MediaPlayer? = null
     
     /**
      * Plays the TNT ticking/detonation sound
@@ -71,6 +73,42 @@ class SoundPlayer(private val context: Context) {
     }
     
     /**
+     * Plays the day ambient sound (birds)
+     * Stops night sound if playing
+     */
+    fun playDayAmbientSound() {
+        // Stop night sound if it's playing
+        releaseNightAmbientSound()
+        
+        // Release any existing day sound
+        releaseDayAmbientSound()
+        
+        // Create and start new day ambient sound
+        dayAmbientSound = MediaPlayer.create(context, R.raw.birds).apply {
+            isLooping = true
+            start()
+        }
+    }
+    
+    /**
+     * Plays the night ambient sound (crickets)
+     * Stops day sound if playing
+     */
+    fun playNightAmbientSound() {
+        // Stop day sound if it's playing
+        releaseDayAmbientSound()
+        
+        // Release any existing night sound
+        releaseNightAmbientSound()
+        
+        // Create and start new night ambient sound
+        nightAmbientSound = MediaPlayer.create(context, R.raw.grillos).apply {
+            isLooping = true
+            start()
+        }
+    }
+    
+    /**
      * Stops and releases sound resources
      */
     fun releaseAll() {
@@ -78,6 +116,8 @@ class SoundPlayer(private val context: Context) {
         releaseExplosionSound()
         releaseCreeperSound()
         releaseCloudSound()
+        releaseDayAmbientSound()
+        releaseNightAmbientSound()
     }
     
     private fun releaseTickingSound() {
@@ -110,5 +150,21 @@ class SoundPlayer(private val context: Context) {
             release()
         }
         cloudSound = null
+    }
+    
+    private fun releaseDayAmbientSound() {
+        dayAmbientSound?.apply {
+            if (isPlaying) stop()
+            release()
+        }
+        dayAmbientSound = null
+    }
+    
+    private fun releaseNightAmbientSound() {
+        nightAmbientSound?.apply {
+            if (isPlaying) stop()
+            release()
+        }
+        nightAmbientSound = null
     }
 } 

@@ -1,13 +1,16 @@
 package com.dagd.minecraftfuntimer.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.dagd.minecraftfuntimer.audio.SoundPlayer
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 import com.dagd.minecraftfuntimer.ui.timer.TimerSetupScreen
 import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
@@ -28,6 +31,26 @@ fun MinecraftTimerApp(
     // Track night/day mode
     var isNightMode by remember { mutableStateOf(true) }
     
+    // Create a sound player for ambient sounds
+    val context = LocalContext.current
+    val soundPlayer = remember { SoundPlayer(context) }
+    
+    // Initial sound playback based on night mode state
+    LaunchedEffect(Unit) {
+        if (isNightMode) {
+            soundPlayer.playNightAmbientSound()
+        } else {
+            soundPlayer.playDayAmbientSound()
+        }
+    }
+    
+    // Clean up resources when the app is closed
+    androidx.compose.runtime.DisposableEffect(soundPlayer) {
+        onDispose {
+            soundPlayer.releaseAll()
+        }
+    }
+    
     if (showTimerSetup) {
         // Show the timer setup screen
         TimerSetupScreen(
@@ -45,7 +68,17 @@ fun MinecraftTimerApp(
         MinecraftTimerScene(
             timerState = timerState,
             isNightMode = isNightMode,
-            onNightModeToggle = { isNightMode = !isNightMode },
+            onNightModeToggle = { 
+                // Toggle the night mode state
+                isNightMode = !isNightMode
+                
+                // Play the appropriate ambient sound based on the new state
+                if (isNightMode) {
+                    soundPlayer.playNightAmbientSound()
+                } else {
+                    soundPlayer.playDayAmbientSound()
+                }
+            },
             onTimerTextClick = {
                 // Only show timer setup if timer is not running
                 if (!timerState.isRunning) {
