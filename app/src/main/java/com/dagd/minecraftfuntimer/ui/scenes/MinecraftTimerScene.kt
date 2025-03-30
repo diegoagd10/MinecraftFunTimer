@@ -1,4 +1,4 @@
-package com.dagd.minecraftfuntimer.ui
+package com.dagd.minecraftfuntimer.ui.scenes
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.layout.Box
@@ -14,18 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.dagd.minecraftfuntimer.audio.SoundPlayer
-import com.dagd.minecraftfuntimer.ui.components.RenderButterflies
 import com.dagd.minecraftfuntimer.ui.handlers.TreeInteractionHandler
-import com.dagd.minecraftfuntimer.ui.scenes.RenderCircularTimer
-import com.dagd.minecraftfuntimer.ui.scenes.RenderClouds
-import com.dagd.minecraftfuntimer.ui.scenes.RenderCreeper
-import com.dagd.minecraftfuntimer.ui.scenes.RenderGround
-import com.dagd.minecraftfuntimer.ui.scenes.RenderMountainSurfaces
-import com.dagd.minecraftfuntimer.ui.scenes.RenderSkyBackground
-import com.dagd.minecraftfuntimer.ui.scenes.RenderStars
-import com.dagd.minecraftfuntimer.ui.scenes.RenderSun
-import com.dagd.minecraftfuntimer.ui.scenes.RenderTnt
-import com.dagd.minecraftfuntimer.ui.scenes.RenderTree
 import com.dagd.minecraftfuntimer.ui.timer.TimerState
 
 /**

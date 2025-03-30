@@ -1,7 +1,9 @@
-package com.dagd.minecraftfuntimer.ui.components
+package com.dagd.minecraftfuntimer.ui.scenes
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
+import com.dagd.minecraftfuntimer.ui.components.ButterflyColor
+import com.dagd.minecraftfuntimer.ui.components.ButterflyPositioned
 
 /**
  * Renders a group of butterflies at various positions in the scene.

@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.dagd.minecraftfuntimer.audio.SoundPlayer
+import com.dagd.minecraftfuntimer.ui.scenes.MinecraftTimerScene
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 import com.dagd.minecraftfuntimer.ui.timer.TimerSetupScreen
 import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
