@@ -109,7 +109,13 @@ fun MinecraftTimerApp(
             RenderMountainSurfaces()
             RenderTnt()
             RenderTree()
-            RenderCreeper()
+            RenderCreeper(
+                alignment = Alignment.BottomEnd,
+                paddingBottom = 35,
+                paddingEnd = 5,
+                zIndex = 10f,
+                size = 120
+            )
         }
     }
 }
@@ -382,16 +388,22 @@ private fun RenderTree() {
 }
 
 @Composable
-private fun RenderCreeper() {
+private fun RenderCreeper(
+    alignment: Alignment,
+    paddingBottom: Int,
+    paddingEnd: Int,
+    zIndex: Float,
+    size: Int
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 35.dp, end = 5.dp)
-            .zIndex(10f),
-        contentAlignment = Alignment.BottomEnd
+            .padding(bottom = paddingBottom.dp, end = paddingEnd.dp)
+            .zIndex(zIndex),
+        contentAlignment = alignment
     ) {
         Creeper(
-            modifier = Modifier.size(120.dp)
+            modifier = Modifier.size(size.dp)
         )
     }
 }
