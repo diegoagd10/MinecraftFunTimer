@@ -40,13 +40,12 @@ fun TimerSetupScreen(
     // State to track the current minutes value
     var minutes by remember { mutableStateOf("") }
 
-    // Background color for the screen
+    // UI Colors
     val backgroundColor = Color(0xFF121212)
-    
-    // Colors for the digit buttons
     val digitButtonColor = Color(0xFF2E2E2E)
     val digitTextColor = Color.White
     val runButtonColor = Color(0xFF76C922) // Minecraft green
+    val timeDisplayColor = Color(0xFFFFD700) // Gold color
 
     Column(
         modifier = Modifier
@@ -73,7 +72,7 @@ fun TimerSetupScreen(
         Text(
             text = if (minutes.isEmpty()) "0" else minutes,
             fontSize = 60.sp,
-            color = Color(0xFFFFD700), // Gold color for time text
+            color = timeDisplayColor,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth()
@@ -83,7 +82,7 @@ fun TimerSetupScreen(
         if (minutes.isNotEmpty()) {
             val mins = minutes.toIntOrNull() ?: 0
             Text(
-                text = formatTimeDisplay(mins),
+                text = TimerFormatUtils.formatTimeDisplay(mins),
                 fontSize = 20.sp,
                 color = Color.LightGray,
                 textAlign = TextAlign.Center,
@@ -93,101 +92,21 @@ fun TimerSetupScreen(
         
         Spacer(modifier = Modifier.weight(0.1f))
         
-        // Number pad
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // First row: 1, 2, 3
-            NumberRow(
-                numbers = listOf(1, 2, 3),
-                digitButtonColor = digitButtonColor,
-                digitTextColor = digitTextColor,
-                onDigitClick = { digit -> 
-                    // Allow reasonable timer limits (0-999 minutes)
-                    val newValue = minutes + digit.toString()
-                    if (newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999) {
-                        minutes = newValue
-                    }
+        // Number pad with extracted component
+        NumberPad(
+            onDigitClick = { digit -> 
+                if (canAddDigit(minutes, digit)) {
+                    minutes += digit.toString()
                 }
-            )
-            
-            // Second row: 4, 5, 6
-            NumberRow(
-                numbers = listOf(4, 5, 6),
-                digitButtonColor = digitButtonColor,
-                digitTextColor = digitTextColor,
-                onDigitClick = { digit -> 
-                    val newValue = minutes + digit.toString()
-                    if (newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999) {
-                        minutes = newValue
-                    }
+            },
+            onBackspace = {
+                if (minutes.isNotEmpty()) {
+                    minutes = minutes.dropLast(1)
                 }
-            )
-            
-            // Third row: 7, 8, 9
-            NumberRow(
-                numbers = listOf(7, 8, 9),
-                digitButtonColor = digitButtonColor,
-                digitTextColor = digitTextColor,
-                onDigitClick = { digit -> 
-                    val newValue = minutes + digit.toString()
-                    if (newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999) {
-                        minutes = newValue
-                    }
-                }
-            )
-            
-            // Fourth row: 0, backspace
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
-                // 0 button
-                Box(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(CircleShape)
-                        .background(digitButtonColor)
-                        .clickable {
-                            if (minutes.isNotEmpty()) {
-                                val newValue = minutes + "0"
-                                if (newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999) {
-                                    minutes = newValue
-                                }
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "0",
-                        fontSize = 24.sp,
-                        color = digitTextColor,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-                
-                // Backspace button
-                Box(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(CircleShape)
-                        .background(digitButtonColor)
-                        .clickable {
-                            if (minutes.isNotEmpty()) {
-                                minutes = minutes.dropLast(1)
-                            }
-                        },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = "⌫",
-                        fontSize = 24.sp,
-                        color = digitTextColor,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
-            }
-        }
+            },
+            digitButtonColor = digitButtonColor,
+            digitTextColor = digitTextColor
+        )
         
         Spacer(modifier = Modifier.weight(0.1f))
         
@@ -239,6 +158,73 @@ fun TimerSetupScreen(
 }
 
 @Composable
+private fun NumberPad(
+    onDigitClick: (Int) -> Unit,
+    onBackspace: () -> Unit,
+    digitButtonColor: Color,
+    digitTextColor: Color
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // First row: 1, 2, 3
+        NumberRow(
+            numbers = listOf(1, 2, 3),
+            digitButtonColor = digitButtonColor,
+            digitTextColor = digitTextColor,
+            onDigitClick = onDigitClick
+        )
+        
+        // Second row: 4, 5, 6
+        NumberRow(
+            numbers = listOf(4, 5, 6),
+            digitButtonColor = digitButtonColor,
+            digitTextColor = digitTextColor,
+            onDigitClick = onDigitClick
+        )
+        
+        // Third row: 7, 8, 9
+        NumberRow(
+            numbers = listOf(7, 8, 9),
+            digitButtonColor = digitButtonColor,
+            digitTextColor = digitTextColor,
+            onDigitClick = onDigitClick
+        )
+        
+        // Fourth row: 0, backspace
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            // 0 button
+            NumberButton(
+                number = 0,
+                onClick = { onDigitClick(0) },
+                backgroundColor = digitButtonColor,
+                textColor = digitTextColor
+            )
+            
+            // Backspace button
+            Box(
+                modifier = Modifier
+                    .size(70.dp)
+                    .clip(CircleShape)
+                    .background(digitButtonColor)
+                    .clickable { onBackspace() },
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "⌫",
+                    fontSize = 24.sp,
+                    color = digitTextColor,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+        }
+    }
+}
+
+@Composable
 private fun NumberRow(
     numbers: List<Int>,
     digitButtonColor: Color,
@@ -249,23 +235,44 @@ private fun NumberRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         numbers.forEach { number ->
-            Box(
-                modifier = Modifier
-                    .size(70.dp)
-                    .clip(CircleShape)
-                    .background(digitButtonColor)
-                    .clickable { onDigitClick(number) },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = number.toString(),
-                    fontSize = 24.sp,
-                    color = digitTextColor,
-                    fontWeight = FontWeight.Bold
-                )
-            }
+            NumberButton(
+                number = number,
+                onClick = { onDigitClick(number) },
+                backgroundColor = digitButtonColor,
+                textColor = digitTextColor
+            )
         }
     }
+}
+
+@Composable
+private fun NumberButton(
+    number: Int,
+    onClick: () -> Unit,
+    backgroundColor: Color,
+    textColor: Color
+) {
+    Box(
+        modifier = Modifier
+            .size(70.dp)
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = number.toString(),
+            fontSize = 24.sp,
+            color = textColor,
+            fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+// Helper function to validate input
+private fun canAddDigit(currentValue: String, digit: Int): Boolean {
+    val newValue = currentValue + digit.toString()
+    return newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999
 }
 
 // Helper object to make functions testable
@@ -281,11 +288,6 @@ object TimerFormatUtils {
             "$mins minute${if (mins != 1) "s" else ""}"
         }
     }
-}
-
-// Use the extracted function within the composable
-private fun formatTimeDisplay(minutes: Int): String {
-    return TimerFormatUtils.formatTimeDisplay(minutes)
 }
 
 @Preview(showBackground = true)
