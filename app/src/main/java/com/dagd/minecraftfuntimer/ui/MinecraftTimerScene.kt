@@ -75,8 +75,8 @@ fun MinecraftTimerScene(
         RenderTree()
         RenderCreeper(
             alignment = Alignment.BottomEnd,
-            paddingBottom = 35,
-            paddingEnd = 5,
+            paddingBottom = 50,
+            paddingEnd = 10,
             zIndex = 10f
         )
     }
@@ -121,7 +121,7 @@ private fun RenderCircularTimer(
         modifier = Modifier
             .fillMaxSize()
             .zIndex(4f)
-            .padding(top = 150.dp),
+            .padding(top = 225.dp),
         contentAlignment = Alignment.TopCenter
     ) {
         CircularTimer(
@@ -147,7 +147,7 @@ private fun RenderClouds() {
         contentAlignment = Alignment.TopStart
     ) {
         Cloud(
-            modifier = Modifier.size(width = 155.dp, height = 100.dp),
+            modifier = Modifier.size(width = 185.dp, height = 170.dp),
             cloudType = CloudType.TYPE_1
         )
     }
@@ -161,7 +161,7 @@ private fun RenderClouds() {
         contentAlignment = Alignment.TopStart
     ) {
         Cloud(
-            modifier = Modifier.size(width = 60.dp, height = 30.dp),
+            modifier = Modifier.size(width = 90.dp, height = 30.dp),
             cloudType = CloudType.TYPE_2
         )
     }
@@ -403,7 +403,7 @@ private fun RenderTree() {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 50.dp, end = 10.dp)
+            .padding(bottom = 70.dp, end = 10.dp)
             .zIndex(10f),
         contentAlignment = Alignment.BottomEnd
     ) {

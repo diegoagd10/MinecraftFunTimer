@@ -58,12 +58,13 @@ fun ExplosionParticle(
     // Using a wider range of randomness for more varied particle movement
     val randomFactor = remember { Random.nextFloat() * 0.4f + 0.8f } // Increased from 0.6f to 0.8f for larger distance
     val randomAngleOffset = remember { (Random.nextFloat() - 0.5f) * 15f } // +/- 15 degrees variation
+    val explosionSize = 100f
     
     // Calculate target position based on trajectory with angle variation
     val (targetX, targetY) = remember {
         when (trajectory) {
             ParticleTrajectory.UP_LEFT -> {
-                val distance = 80f * randomFactor // Increased from 50f to 80f
+                val distance = explosionSize * randomFactor
                 val baseAngle = 135f + randomAngleOffset
                 val radians = Math.toRadians(baseAngle.toDouble())
                 Pair(
@@ -72,7 +73,7 @@ fun ExplosionParticle(
                 )
             }
             ParticleTrajectory.UP_RIGHT -> {
-                val distance = 80f * randomFactor // Increased from 50f to 80f
+                val distance = explosionSize * randomFactor
                 val baseAngle = 45f + randomAngleOffset
                 val radians = Math.toRadians(baseAngle.toDouble())
                 Pair(
@@ -81,7 +82,7 @@ fun ExplosionParticle(
                 )
             }
             ParticleTrajectory.DOWN_LEFT -> {
-                val distance = 80f * randomFactor // Increased from 50f to 80f
+                val distance = explosionSize * randomFactor
                 val baseAngle = 225f + randomAngleOffset
                 val radians = Math.toRadians(baseAngle.toDouble())
                 Pair(
@@ -90,7 +91,7 @@ fun ExplosionParticle(
                 )
             }
             ParticleTrajectory.DOWN_RIGHT -> {
-                val distance = 80f * randomFactor // Increased from 50f to 80f
+                val distance = explosionSize * randomFactor
                 val baseAngle = 315f + randomAngleOffset
                 val radians = Math.toRadians(baseAngle.toDouble())
                 Pair(
