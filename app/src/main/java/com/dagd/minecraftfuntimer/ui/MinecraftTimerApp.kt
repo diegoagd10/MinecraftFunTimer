@@ -49,6 +49,9 @@ fun MinecraftTimerApp(
     // Track whether we're showing the timer setup screen
     var showTimerSetup by remember { mutableStateOf(false) }
     
+    // Track night/day mode
+    var isNightMode by remember { mutableStateOf(true) }
+    
     if (showTimerSetup) {
         // Show the timer setup screen
         TimerSetupScreen(
@@ -68,8 +71,8 @@ fun MinecraftTimerApp(
                 .fillMaxSize()
                 .windowInsetsPadding(WindowInsets.statusBars)
         ) {
-            RenderSkyBackground()
-            RenderSun()
+            RenderSkyBackground(isNightMode)
+            RenderSun(onSunClick = { isNightMode = !isNightMode })
             RenderClouds()
             RenderStars()
             RenderCircularTimer(
@@ -111,17 +114,17 @@ fun MinecraftTimerApp(
 }
 
 @Composable
-private fun RenderSkyBackground() {
+private fun RenderSkyBackground(isNightMode: Boolean) {
     SkyBackground(
         modifier = Modifier
             .fillMaxSize()
             .zIndex(0f),
-        initialIsNightMode = true
+        isNightMode = isNightMode
     )
 }
 
 @Composable
-private fun RenderSun() {
+private fun RenderSun(onSunClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -130,7 +133,8 @@ private fun RenderSun() {
         contentAlignment = Alignment.TopEnd
     ) {
         Sun(
-            modifier = Modifier.size(60.dp)
+            modifier = Modifier.size(60.dp),
+            onClick = onSunClick
         )
     }
 }
