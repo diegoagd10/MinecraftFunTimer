@@ -30,7 +30,9 @@ fun MinecraftTimerScene(
 ) {
     val scope = rememberCoroutineScope()
     val yellowButterflyPaddingBottom = remember { Animatable(330f) }
-    val isYellowButterflyAnimating = remember { mutableStateOf(false) }
+    val purpleButterflyPaddingBottom = remember { Animatable(330f) }
+    val purpleButterflyPaddingEnd = remember { Animatable(140f) }
+    val isButterfliesAnimating = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val soundPlayer = remember { SoundPlayer(context) }
 
@@ -75,17 +77,22 @@ fun MinecraftTimerScene(
         RenderTnt()
         RenderTree(
             onTreeClick = {
+                // Animate both butterflies with a single animation flag
                 TreeInteractionHandler.onTreeClick(
                     scope,
                     yellowButterflyPaddingBottom,
-                    isYellowButterflyAnimating,
+                    purpleButterflyPaddingBottom,
+                    purpleButterflyPaddingEnd,
+                    isButterfliesAnimating,
                     soundPlayer
                 )
             }
         )
 
         RenderButterflies(
-            yellowButterflyPaddingBottom = yellowButterflyPaddingBottom.value.toInt()
+            yellowButterflyPaddingBottom = yellowButterflyPaddingBottom.value.toInt(),
+            purpleButterflyPaddingBottom = purpleButterflyPaddingBottom.value.toInt(),
+            purpleButterflyPaddingEnd = purpleButterflyPaddingEnd.value.toInt()
         )
 
         RenderCreeper(

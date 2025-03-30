@@ -9,7 +9,11 @@ import com.dagd.minecraftfuntimer.ui.components.ButterflyPositioned
  * Renders a group of butterflies at various positions in the scene.
  */
 @Composable
-fun RenderButterflies(yellowButterflyPaddingBottom: Int = 440) {
+fun RenderButterflies(
+    yellowButterflyPaddingBottom: Int = 440,
+    purpleButterflyPaddingBottom: Int = 330,
+    purpleButterflyPaddingEnd: Int = 140
+) {
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
         paddingBottom = yellowButterflyPaddingBottom,
@@ -21,8 +25,8 @@ fun RenderButterflies(yellowButterflyPaddingBottom: Int = 440) {
 
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
-        paddingBottom = 330,
-        paddingEnd = 140,
+        paddingBottom = purpleButterflyPaddingBottom,
+        paddingEnd = purpleButterflyPaddingEnd,
         zIndex = 9f,
         size = 30,
         butterflyColor = ButterflyColor.PURPLE
