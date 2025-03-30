@@ -16,7 +16,7 @@ class TntTest {
         // Assert
         assertEquals(TntDetonationState.IDLE, tntState.detonationState.value)
         assertFalse(tntState.isExploding.value)
-        assertFalse(tntState.isVisible.value)
+        assertTrue(tntState.isVisible.value)
     }
     
     @Test

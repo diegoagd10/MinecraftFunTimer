@@ -111,9 +111,6 @@ fun Tnt(
             
             // Wait for explosion animation to complete - increased from 1000 to 1200
             delay(1200)
-            
-            // Reset the TNT state - make it reappear
-            tntState.reset()
         }
     }
     
@@ -131,8 +128,8 @@ fun Tnt(
         // TNT block
         AnimatedVisibility(
             visible = tntState.isVisible.value,
-            enter = fadeIn(),
-            exit = fadeOut()
+            enter = fadeIn(animationSpec = tween(300)),
+            exit = fadeOut(animationSpec = tween(500))
         ) {
             Box(
                 modifier = Modifier
@@ -176,7 +173,12 @@ fun Tnt(
             
             Explosion(
                 modifier = Modifier.size((tntSize * 2.5f).dp), // Increased from 1.5f to 2.5f
-                isActive = true
+                isActive = true,
+                onExplosionComplete = {
+                    if (tntState.detonationState.value == TntDetonationState.EXPLODED) {
+                        tntState.reset()
+                    }
+                }
             )
         }
     }
