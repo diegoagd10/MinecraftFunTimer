@@ -24,6 +24,7 @@ import com.dagd.minecraftfuntimer.ui.components.Cloud
 import com.dagd.minecraftfuntimer.ui.components.CloudType
 import com.dagd.minecraftfuntimer.ui.components.Creeper
 import com.dagd.minecraftfuntimer.ui.components.Ground
+import com.dagd.minecraftfuntimer.ui.components.RenderButterflies
 import com.dagd.minecraftfuntimer.ui.components.SkyBackground
 import com.dagd.minecraftfuntimer.ui.components.Star
 import com.dagd.minecraftfuntimer.ui.components.StarSize
@@ -72,6 +73,7 @@ fun MinecraftTimerScene(
         RenderMountainSurfaces()
         RenderTnt()
         RenderTree()
+        RenderButterflies()
         RenderCreeper(
             alignment = Alignment.BottomEnd,
             paddingBottom = 50,
