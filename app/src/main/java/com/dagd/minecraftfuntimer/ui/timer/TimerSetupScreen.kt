@@ -98,6 +98,7 @@ fun TimerSetupScreen(
         
         // Number pad with extracted component
         NumberPad(
+            currentValue = minutes,
             onDigitClick = { digit -> 
                 if (canAddDigit(minutes, digit)) {
                     minutes += digit.toString()
@@ -163,11 +164,36 @@ fun TimerSetupScreen(
 
 @Composable
 private fun NumberPad(
+    currentValue: String,
     onDigitClick: (Int) -> Unit,
     onBackspace: () -> Unit,
     digitButtonColor: Color,
     digitTextColor: Color
 ) {
+    // Calculate which buttons should be disabled based on current value
+    val isDigitDisabled = { digit: Int ->
+        if (currentValue.isEmpty()) {
+            // Only disable 0 when empty (handled separately in the 0 button)
+            false
+        } else if (currentValue.length == 1) {
+            // On second digit, disable buttons that would make the total > 60
+            val firstDigit = currentValue.toIntOrNull() ?: 0
+            if (firstDigit == 6) {
+                // If first digit is 6, only allow 0 as second digit
+                digit > 0
+            } else if (firstDigit > 6) {
+                // If first digit is > 6, disable all second digits
+                true
+            } else {
+                // First digit is <= 5, allow all second digits
+                false
+            }
+        } else {
+            // Already have 2 digits, don't allow more
+            true
+        }
+    }
+    
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -177,7 +203,8 @@ private fun NumberPad(
             numbers = listOf(1, 2, 3),
             digitButtonColor = digitButtonColor,
             digitTextColor = digitTextColor,
-            onDigitClick = onDigitClick
+            onDigitClick = onDigitClick,
+            isDisabled = isDigitDisabled
         )
         
         // Second row: 4, 5, 6
@@ -185,7 +212,8 @@ private fun NumberPad(
             numbers = listOf(4, 5, 6),
             digitButtonColor = digitButtonColor,
             digitTextColor = digitTextColor,
-            onDigitClick = onDigitClick
+            onDigitClick = onDigitClick,
+            isDisabled = isDigitDisabled
         )
         
         // Third row: 7, 8, 9
@@ -193,19 +221,21 @@ private fun NumberPad(
             numbers = listOf(7, 8, 9),
             digitButtonColor = digitButtonColor,
             digitTextColor = digitTextColor,
-            onDigitClick = onDigitClick
+            onDigitClick = onDigitClick,
+            isDisabled = isDigitDisabled
         )
         
         // Fourth row: 0, backspace
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            // 0 button
+            // 0 button - disabled when there are no other digits or when it would make the value > 60
             NumberButton(
                 number = 0,
                 onClick = { onDigitClick(0) },
                 backgroundColor = digitButtonColor,
-                textColor = digitTextColor
+                textColor = digitTextColor,
+                isDisabled = currentValue.isEmpty() || isDigitDisabled(0)
             )
             
             // Backspace button
@@ -233,7 +263,8 @@ private fun NumberRow(
     numbers: List<Int>,
     digitButtonColor: Color,
     digitTextColor: Color,
-    onDigitClick: (Int) -> Unit
+    onDigitClick: (Int) -> Unit,
+    isDisabled: (Int) -> Boolean
 ) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp)
@@ -243,7 +274,8 @@ private fun NumberRow(
                 number = number,
                 onClick = { onDigitClick(number) },
                 backgroundColor = digitButtonColor,
-                textColor = digitTextColor
+                textColor = digitTextColor,
+                isDisabled = isDisabled(number)
             )
         }
     }
@@ -254,20 +286,24 @@ private fun NumberButton(
     number: Int,
     onClick: () -> Unit,
     backgroundColor: Color,
-    textColor: Color
+    textColor: Color,
+    isDisabled: Boolean = false
 ) {
+    val buttonColor = if (isDisabled) backgroundColor.copy(alpha = 0.3f) else backgroundColor
+    val textColorWithAlpha = if (isDisabled) textColor.copy(alpha = 0.3f) else textColor
+    
     Box(
         modifier = Modifier
             .size(70.dp)
             .clip(CircleShape)
-            .background(backgroundColor)
-            .clickable(onClick = onClick),
+            .background(buttonColor)
+            .clickable(enabled = !isDisabled, onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
         Text(
             text = number.toString(),
             fontSize = 24.sp,
-            color = textColor,
+            color = textColorWithAlpha,
             fontWeight = FontWeight.Bold
         )
     }
@@ -275,8 +311,16 @@ private fun NumberButton(
 
 // Helper function to validate input
 private fun canAddDigit(currentValue: String, digit: Int): Boolean {
+    // Don't allow leading zeros
+    if (currentValue.isEmpty() && digit == 0) {
+        return false
+    }
+    
     val newValue = currentValue + digit.toString()
-    return newValue.length <= 3 && (newValue.toIntOrNull() ?: 0) <= 999
+    val newValueInt = newValue.toIntOrNull() ?: 0
+    
+    // Limit to 60 minutes
+    return newValue.length <= 2 && newValueInt <= 60
 }
 
 // Helper object to make functions testable
