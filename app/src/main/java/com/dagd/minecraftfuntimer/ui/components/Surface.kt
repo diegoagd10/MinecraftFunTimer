@@ -1,6 +1,7 @@
 package com.dagd.minecraftfuntimer.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -21,14 +22,15 @@ import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 @Composable
 fun Surface(
     modifier: Modifier = Modifier,
-    surfaceType: SurfaceType = SurfaceType.TYPE_1
+    surfaceType: SurfaceType = SurfaceType.TYPE_1,
+    onClick: () -> Unit = {}
 ) {
     val imageRes = when (surfaceType) {
         SurfaceType.TYPE_1 -> R.drawable.superficie1
         SurfaceType.TYPE_2 -> R.drawable.superficie2
     }
     
-    Box(modifier = modifier) {
+    Box(modifier = modifier.clickable { onClick() }) {
         // Surface/mountain block image
         Image(
             painter = painterResource(id = imageRes),

@@ -1,5 +1,8 @@
 package com.dagd.minecraftfuntimer.ui
 
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -8,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -27,6 +32,8 @@ import com.dagd.minecraftfuntimer.ui.components.SurfaceType
 import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
 import com.dagd.minecraftfuntimer.ui.timer.TimerState
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 /**
  * Main Minecraft timer scene with night/day toggle capability.
@@ -251,6 +258,10 @@ private fun RenderStars() {
 
 @Composable
 private fun RenderMountainSurfaces() {
+    val scope = rememberCoroutineScope()
+    val firstCreeperPaddingBottom = remember { Animatable(100f) }
+    val secondCreeperPaddingBottom = remember { Animatable(80f) }
+
     // First mountain surface
     Box(
         modifier = Modifier
@@ -261,14 +272,17 @@ private fun RenderMountainSurfaces() {
     ) {
         Surface(
             modifier = Modifier.size(width = 70.dp, height = 120.dp),
-            surfaceType = SurfaceType.TYPE_1
+            surfaceType = SurfaceType.TYPE_1,
+            onClick = {
+                animateCreeperJump(scope, firstCreeperPaddingBottom, 150f, 100f)
+            }
         )
     }
 
     RenderCreeper(
         alignment = Alignment.BottomStart,
         paddingStart = 10,
-        paddingBottom = 150,
+        paddingBottom = firstCreeperPaddingBottom.value.toInt(),
         zIndex = 9f
     )
 
@@ -282,7 +296,10 @@ private fun RenderMountainSurfaces() {
     ) {
         Surface(
             modifier = Modifier.size(width = 50.dp, height = 80.dp),
-            surfaceType = SurfaceType.TYPE_2
+            surfaceType = SurfaceType.TYPE_2,
+            onClick = {
+                animateCreeperJump(scope, firstCreeperPaddingBottom, 150f, 100f)
+            }
         )
     }
 
@@ -296,14 +313,17 @@ private fun RenderMountainSurfaces() {
     ) {
         Surface(
             modifier = Modifier.size(width = 65.dp, height = 100.dp),
-            surfaceType = SurfaceType.TYPE_1
+            surfaceType = SurfaceType.TYPE_1,
+            onClick = {
+                animateCreeperJump(scope, secondCreeperPaddingBottom, 120f, 80f)
+            }
         )
     }
 
     RenderCreeper(
         alignment = Alignment.BottomStart,
         paddingStart = 70,
-        paddingBottom = 125,
+        paddingBottom = secondCreeperPaddingBottom.value.toInt(),
         zIndex = 9f
     )
 
@@ -317,7 +337,10 @@ private fun RenderMountainSurfaces() {
     ) {
         Surface(
             modifier = Modifier.size(width = 50.dp, height = 80.dp),
-            surfaceType = SurfaceType.TYPE_2
+            surfaceType = SurfaceType.TYPE_2,
+            onClick = {
+                animateCreeperJump(scope, secondCreeperPaddingBottom, 120f, 80f)
+            }
         )
     }
 }
@@ -376,4 +399,26 @@ private fun RenderCreeper(
                 .zIndex(zIndex)
         )
     }
-} 
+}
+
+private fun animateCreeperJump(
+    scope: CoroutineScope,
+    creeperPaddingBottom: Animatable<Float, AnimationVector1D>,
+    jumpHeight: Float,
+    restingHeight: Float
+) {
+    scope.launch {
+        // Animate creeper moving up - slowed down by 30%
+        creeperPaddingBottom.animateTo(
+            targetValue = jumpHeight,
+            animationSpec = tween(650)  // Was 500, increased by 30%
+        )
+        // Wait a moment - also increased by 30%
+        kotlinx.coroutines.delay(650)  // Was 500, increased by 30%
+        // Animate creeper moving back down - slowed down by 30%
+        creeperPaddingBottom.animateTo(
+            targetValue = restingHeight,
+            animationSpec = tween(650)  // Was 500, increased by 30%
+        )
+    }
+}
