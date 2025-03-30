@@ -24,7 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -51,6 +53,7 @@ class TntState {
     val detonationState = mutableStateOf(TntDetonationState.IDLE)
     val isExploding = mutableStateOf(false)
     val isVisible = mutableStateOf(true)
+    val flashAlpha = mutableStateOf(0f)
 
     fun detonate() {
         detonationState.value = TntDetonationState.DETONATING
@@ -67,6 +70,7 @@ class TntState {
         detonationState.value = TntDetonationState.IDLE
         isExploding.value = false
         isVisible.value = true
+        flashAlpha.value = 0f
     }
 }
 
@@ -90,7 +94,7 @@ fun Tnt(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(500),
+            animation = tween(250), // Faster flashing (250ms instead of 500ms)
             repeatMode = RepeatMode.Reverse
         ),
         label = "tnt_flash"
@@ -109,8 +113,11 @@ fun Tnt(
             // Play explosion sound
             soundPlayer.playExplosionSound()
             
-            // Wait for explosion animation to complete - increased from 1000 to 1200
+            // Wait for explosion animation to complete
             delay(1200)
+            
+            // Reset the TNT state
+            tntState.reset()
         }
     }
     
@@ -139,7 +146,7 @@ fun Tnt(
                         onClick = { tntState.detonate() }
                     )
             ) {
-                // TNT image
+                // Main TNT image
                 Image(
                     painter = painterResource(id = R.drawable.tnt),
                     contentDescription = "TNT Block",
@@ -147,34 +154,34 @@ fun Tnt(
                     contentScale = ContentScale.FillBounds
                 )
                 
-                // White flash overlay when detonating
+                // White cube overlay for flashing effect (similar to the JavaScript version)
                 if (tntState.detonationState.value == TntDetonationState.DETONATING) {
-                    Box(
+                    // Using the dedicated white cube image
+                    Image(
+                        painter = painterResource(id = R.drawable.cubo_blanco),
+                        contentDescription = null,
                         modifier = Modifier
                             .fillMaxSize()
-                            .alpha(flashingAlpha)
-                            .background(Color.White)
+                            .alpha(flashingAlpha),
+                        contentScale = ContentScale.FillBounds
                     )
                 }
             }
         }
         
         // Explosion effect using particles
-        // The explosion size is much larger than the TNT (increased from 1.5x to 2.5x)
-        // to ensure particles extend well beyond the TNT borders
         if (tntState.isExploding.value) {
             val tntSize = modifier.toString().let {
                 // Extract size from modifier if available, or use default
-                // This is a hack since we can't directly access the size from modifier
                 val sizeRegex = "size: ([0-9]+\\.?[0-9]*)dp".toRegex()
                 val match = sizeRegex.find(it)
                 match?.groupValues?.get(1)?.toFloatOrNull() ?: 60f
             }
             
             Explosion(
-                modifier = Modifier.size((tntSize * 2.5f).dp), // Increased from 1.5f to 2.5f
+                modifier = Modifier.size((tntSize * 2.5f).dp),
                 isActive = true,
-                onExplosionComplete = {
+                onExplosionComplete = { 
                     if (tntState.detonationState.value == TntDetonationState.EXPLODED) {
                         tntState.reset()
                     }

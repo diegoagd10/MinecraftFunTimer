@@ -17,6 +17,7 @@ class TntTest {
         assertEquals(TntDetonationState.IDLE, tntState.detonationState.value)
         assertFalse(tntState.isExploding.value)
         assertTrue(tntState.isVisible.value)
+        assertEquals(0f, tntState.flashAlpha.value)
     }
     
     @Test
@@ -62,5 +63,22 @@ class TntTest {
         assertEquals(TntDetonationState.IDLE, tntState.detonationState.value)
         assertFalse(tntState.isExploding.value)
         assertTrue(tntState.isVisible.value)
+        assertEquals(0f, tntState.flashAlpha.value)
+    }
+    
+    @Test
+    fun `after reset, flash alpha should be reset to zero`() {
+        // Arrange
+        val tntState = TntState()
+        
+        // Act - simulate a full explosion cycle
+        tntState.detonate()
+        // Manually modify the flash alpha value to simulate animation
+        tntState.flashAlpha.value = 0.8f
+        tntState.explode()
+        tntState.reset()
+        
+        // Assert
+        assertEquals(0f, tntState.flashAlpha.value)
     }
 } 
