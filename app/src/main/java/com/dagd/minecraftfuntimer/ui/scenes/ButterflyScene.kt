@@ -12,7 +12,12 @@ import com.dagd.minecraftfuntimer.ui.components.ButterflyPositioned
 fun RenderButterflies(
     yellowButterflyPaddingBottom: Int = 440,
     purpleButterflyPaddingBottom: Int = 330,
-    purpleButterflyPaddingEnd: Int = 140
+    purpleButterflyPaddingEnd: Int = 140,
+    blueButterflyPaddingBottom: Int = 300,
+    blueButterflyPaddingEnd: Int = 160,
+    redButterflyPaddingBottom: Int = 270,
+    redButterflyPaddingEnd: Int = 160,
+    orangeButterflyPaddingEnd: Int = 160
 ) {
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
@@ -34,8 +39,8 @@ fun RenderButterflies(
 
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
-        paddingBottom = 300,
-        paddingEnd = 160,
+        paddingBottom = blueButterflyPaddingBottom,
+        paddingEnd = blueButterflyPaddingEnd,
         zIndex = 9f,
         size = 30,
         butterflyColor = ButterflyColor.BLUE
@@ -43,8 +48,8 @@ fun RenderButterflies(
 
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
-        paddingBottom = 270,
-        paddingEnd = 160,
+        paddingBottom = redButterflyPaddingBottom,
+        paddingEnd = redButterflyPaddingEnd,
         zIndex = 9f,
         size = 30,
         butterflyColor = ButterflyColor.RED
@@ -53,7 +58,7 @@ fun RenderButterflies(
     ButterflyPositioned(
         alignment = Alignment.BottomEnd,
         paddingBottom = 240,
-        paddingEnd = 160,
+        paddingEnd = orangeButterflyPaddingEnd,
         zIndex = 9f,
         size = 30,
         butterflyColor = ButterflyColor.ORANGE

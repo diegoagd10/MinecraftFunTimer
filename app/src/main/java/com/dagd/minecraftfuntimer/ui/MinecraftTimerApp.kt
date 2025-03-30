@@ -26,17 +26,17 @@ fun MinecraftTimerApp(
 ) {
     // Get the current timer state
     val timerState by timerViewModel.timerState.collectAsState()
-    
+
     // Track whether we're showing the timer setup screen
     var showTimerSetup by remember { mutableStateOf(false) }
-    
+
     // Track night/day mode
     var isNightMode by remember { mutableStateOf(true) }
-    
+
     // Create a sound player for ambient sounds if not provided
     val context = LocalContext.current
     val actualSoundPlayer = soundPlayer ?: remember { SoundPlayer(context) }
-    
+
     // Initial sound playback based on night mode state
     LaunchedEffect(Unit) {
         if (isNightMode) {
@@ -45,7 +45,7 @@ fun MinecraftTimerApp(
             actualSoundPlayer.playDayAmbientSound()
         }
     }
-    
+
     // Clean up resources when the app is closed (only for internal sound player)
     if (soundPlayer == null) {
         androidx.compose.runtime.DisposableEffect(actualSoundPlayer) {
@@ -54,7 +54,7 @@ fun MinecraftTimerApp(
             }
         }
     }
-    
+
     if (showTimerSetup) {
         // Show the timer setup screen
         TimerSetupScreen(
@@ -72,10 +72,10 @@ fun MinecraftTimerApp(
         MinecraftTimerScene(
             timerState = timerState,
             isNightMode = isNightMode,
-            onNightModeToggle = { 
+            onNightModeToggle = {
                 // Toggle the night mode state
                 isNightMode = !isNightMode
-                
+
                 // Play the appropriate ambient sound based on the new state
                 if (isNightMode) {
                     actualSoundPlayer.playNightAmbientSound()

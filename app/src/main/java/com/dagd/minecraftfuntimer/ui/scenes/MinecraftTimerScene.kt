@@ -32,6 +32,14 @@ fun MinecraftTimerScene(
     val yellowButterflyPaddingBottom = remember { Animatable(330f) }
     val purpleButterflyPaddingBottom = remember { Animatable(330f) }
     val purpleButterflyPaddingEnd = remember { Animatable(140f) }
+
+    // Animation state for new butterflies
+    val blueButterflyPaddingBottom = remember { Animatable(300f) }
+    val blueButterflyPaddingEnd = remember { Animatable(160f) }
+    val redButterflyPaddingBottom = remember { Animatable(270f) }
+    val redButterflyPaddingEnd = remember { Animatable(160f) }
+    val orangeButterflyPaddingEnd = remember { Animatable(160f) }
+
     val isButterfliesAnimating = remember { mutableStateOf(false) }
     val context = LocalContext.current
     val soundPlayer = remember { SoundPlayer(context) }
@@ -77,12 +85,17 @@ fun MinecraftTimerScene(
         RenderTnt()
         RenderTree(
             onTreeClick = {
-                // Animate both butterflies with a single animation flag
+                // Animate all butterflies with a single animation flag
                 TreeInteractionHandler.onTreeClick(
                     scope,
                     yellowButterflyPaddingBottom,
                     purpleButterflyPaddingBottom,
                     purpleButterflyPaddingEnd,
+                    blueButterflyPaddingBottom,
+                    blueButterflyPaddingEnd,
+                    redButterflyPaddingBottom,
+                    redButterflyPaddingEnd,
+                    orangeButterflyPaddingEnd,
                     isButterfliesAnimating,
                     soundPlayer
                 )
@@ -92,7 +105,12 @@ fun MinecraftTimerScene(
         RenderButterflies(
             yellowButterflyPaddingBottom = yellowButterflyPaddingBottom.value.toInt(),
             purpleButterflyPaddingBottom = purpleButterflyPaddingBottom.value.toInt(),
-            purpleButterflyPaddingEnd = purpleButterflyPaddingEnd.value.toInt()
+            purpleButterflyPaddingEnd = purpleButterflyPaddingEnd.value.toInt(),
+            blueButterflyPaddingBottom = blueButterflyPaddingBottom.value.toInt(),
+            blueButterflyPaddingEnd = blueButterflyPaddingEnd.value.toInt(),
+            redButterflyPaddingBottom = redButterflyPaddingBottom.value.toInt(),
+            redButterflyPaddingEnd = redButterflyPaddingEnd.value.toInt(),
+            orangeButterflyPaddingEnd = orangeButterflyPaddingEnd.value.toInt()
         )
 
         RenderCreeper(
