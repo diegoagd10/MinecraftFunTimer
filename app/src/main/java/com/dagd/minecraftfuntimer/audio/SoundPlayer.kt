@@ -3,6 +3,11 @@ package com.dagd.minecraftfuntimer.audio
 import android.content.Context
 import android.media.MediaPlayer
 import com.dagd.minecraftfuntimer.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Handles sound playback for game elements
@@ -16,10 +21,16 @@ class SoundPlayer(private val context: Context) {
     private var dayAmbientSound: MediaPlayer? = null
     private var nightAmbientSound: MediaPlayer? = null
     
+    private var isMuted = false
+    private var ambientSoundJob: Job? = null
+    private val coroutineScope = CoroutineScope(Dispatchers.Main)
+    
     /**
      * Plays the TNT ticking/detonation sound
      */
     fun playTickingSound() {
+        if (isMuted) return
+        
         releaseTickingSound()
         tickingSound = MediaPlayer.create(context, R.raw.ticking_bomb).apply {
             setOnCompletionListener { mp ->
@@ -34,6 +45,8 @@ class SoundPlayer(private val context: Context) {
      * Plays the TNT explosion sound
      */
     fun playExplosionSound() {
+        if (isMuted) return
+        
         releaseExplosionSound()
         explosionSound = MediaPlayer.create(context, R.raw.a_bomb).apply {
             setOnCompletionListener { mp ->
@@ -48,6 +61,8 @@ class SoundPlayer(private val context: Context) {
      * Plays the creeper sound
      */
     fun playCreeperSound() {
+        if (isMuted) return
+        
         releaseCreeperSound()
         creeperSound = MediaPlayer.create(context, R.raw.creeper_sound).apply {
             setOnCompletionListener { mp ->
@@ -62,6 +77,8 @@ class SoundPlayer(private val context: Context) {
      * Plays the cloud dissolving sound
      */
     fun playCloudSound() {
+        if (isMuted) return
+        
         releaseCloudSound()
         cloudSound = MediaPlayer.create(context, R.raw.nubes).apply {
             setOnCompletionListener { mp ->
@@ -73,10 +90,15 @@ class SoundPlayer(private val context: Context) {
     }
     
     /**
-     * Plays the day ambient sound (birds)
+     * Plays the day ambient sound (birds) for 5 seconds
      * Stops night sound if playing
      */
     fun playDayAmbientSound() {
+        if (isMuted) return
+        
+        // Cancel any existing ambient sound job
+        ambientSoundJob?.cancel()
+        
         // Stop night sound if it's playing
         releaseNightAmbientSound()
         
@@ -85,16 +107,26 @@ class SoundPlayer(private val context: Context) {
         
         // Create and start new day ambient sound
         dayAmbientSound = MediaPlayer.create(context, R.raw.birds).apply {
-            isLooping = true
             start()
+        }
+        
+        // Schedule stopping after 5 seconds
+        ambientSoundJob = coroutineScope.launch {
+            delay(5000) // 5 seconds
+            releaseDayAmbientSound()
         }
     }
     
     /**
-     * Plays the night ambient sound (crickets)
+     * Plays the night ambient sound (crickets) for 5 seconds
      * Stops day sound if playing
      */
     fun playNightAmbientSound() {
+        if (isMuted) return
+        
+        // Cancel any existing ambient sound job
+        ambientSoundJob?.cancel()
+        
         // Stop day sound if it's playing
         releaseDayAmbientSound()
         
@@ -103,15 +135,38 @@ class SoundPlayer(private val context: Context) {
         
         // Create and start new night ambient sound
         nightAmbientSound = MediaPlayer.create(context, R.raw.grillos).apply {
-            isLooping = true
             start()
         }
+        
+        // Schedule stopping after 5 seconds
+        ambientSoundJob = coroutineScope.launch {
+            delay(5000) // 5 seconds
+            releaseNightAmbientSound()
+        }
+    }
+    
+    /**
+     * Mutes all sounds and stops any playing sounds
+     */
+    fun muteAllSounds() {
+        isMuted = true
+        releaseAll()
+    }
+    
+    /**
+     * Unmutes sounds for future playback
+     */
+    fun unmuteAllSounds() {
+        isMuted = false
     }
     
     /**
      * Stops and releases sound resources
      */
     fun releaseAll() {
+        ambientSoundJob?.cancel()
+        ambientSoundJob = null
+        
         releaseTickingSound()
         releaseExplosionSound()
         releaseCreeperSound()

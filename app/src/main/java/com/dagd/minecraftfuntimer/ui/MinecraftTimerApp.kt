@@ -20,7 +20,8 @@ import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
  */
 @Composable
 fun MinecraftTimerApp(
-    timerViewModel: TimerViewModel = viewModel()
+    timerViewModel: TimerViewModel = viewModel(),
+    soundPlayer: SoundPlayer? = null
 ) {
     // Get the current timer state
     val timerState by timerViewModel.timerState.collectAsState()
@@ -31,23 +32,25 @@ fun MinecraftTimerApp(
     // Track night/day mode
     var isNightMode by remember { mutableStateOf(true) }
     
-    // Create a sound player for ambient sounds
+    // Create a sound player for ambient sounds if not provided
     val context = LocalContext.current
-    val soundPlayer = remember { SoundPlayer(context) }
+    val actualSoundPlayer = soundPlayer ?: remember { SoundPlayer(context) }
     
     // Initial sound playback based on night mode state
     LaunchedEffect(Unit) {
         if (isNightMode) {
-            soundPlayer.playNightAmbientSound()
+            actualSoundPlayer.playNightAmbientSound()
         } else {
-            soundPlayer.playDayAmbientSound()
+            actualSoundPlayer.playDayAmbientSound()
         }
     }
     
-    // Clean up resources when the app is closed
-    androidx.compose.runtime.DisposableEffect(soundPlayer) {
-        onDispose {
-            soundPlayer.releaseAll()
+    // Clean up resources when the app is closed (only for internal sound player)
+    if (soundPlayer == null) {
+        androidx.compose.runtime.DisposableEffect(actualSoundPlayer) {
+            onDispose {
+                actualSoundPlayer.releaseAll()
+            }
         }
     }
     
@@ -74,9 +77,9 @@ fun MinecraftTimerApp(
                 
                 // Play the appropriate ambient sound based on the new state
                 if (isNightMode) {
-                    soundPlayer.playNightAmbientSound()
+                    actualSoundPlayer.playNightAmbientSound()
                 } else {
-                    soundPlayer.playDayAmbientSound()
+                    actualSoundPlayer.playDayAmbientSound()
                 }
             },
             onTimerTextClick = {

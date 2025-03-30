@@ -13,8 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
+import com.dagd.minecraftfuntimer.audio.SoundPlayer
 import com.dagd.minecraftfuntimer.ui.MinecraftTimerApp
 import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 import com.dagd.minecraftfuntimer.ui.timer.TimerViewModel
@@ -23,9 +25,13 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 class MainActivity : ComponentActivity() {
 
     private val timerViewModel: TimerViewModel by viewModels()
+    private lateinit var soundPlayer: SoundPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        
+        // Initialize sound player
+        soundPlayer = SoundPlayer(this)
         
         // Configure edge-to-edge display - this tells Android that our app will draw
         // behind the system bars
@@ -54,10 +60,31 @@ class MainActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    MinecraftTimerApp(timerViewModel = timerViewModel)
+                    MinecraftTimerApp(
+                        timerViewModel = timerViewModel,
+                        soundPlayer = soundPlayer
+                    )
                 }
             }
         }
+    }
+    
+    override fun onPause() {
+        super.onPause()
+        // Mute all sounds when app goes to background
+        soundPlayer.muteAllSounds()
+    }
+    
+    override fun onResume() {
+        super.onResume()
+        // Unmute sounds when app comes to foreground
+        soundPlayer.unmuteAllSounds()
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        // Release all sound resources when activity is destroyed
+        soundPlayer.releaseAll()
     }
 
     /**
