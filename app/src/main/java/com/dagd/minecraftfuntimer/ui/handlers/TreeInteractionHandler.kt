@@ -89,27 +89,58 @@ object TreeInteractionHandler {
         paddingBottom: Animatable<Float, AnimationVector1D>,
         paddingEnd: Animatable<Float, AnimationVector1D>
     ) {
-        // First animate both position properties to initial target position
-        paddingBottom.animateTo(
-            targetValue = 430f,
-            animationSpec = tween(500)
-        )
-        
-        paddingEnd.animateTo(
-            targetValue = 150f,
-            animationSpec = tween(500)
-        )
+        // First animate both position properties at the same time for diagonal movement
+        coroutineScope {
+            launch {
+                paddingBottom.animateTo(
+                    targetValue = 430f,
+                    animationSpec = tween(500)
+                )
+            }
+            
+            launch {
+                paddingEnd.animateTo(
+                    targetValue = 150f,
+                    animationSpec = tween(500)
+                )
+            }
+        }
+
+        delay(500)  // 0.5 second pause
+
+        // Second animate both position properties at the same time for diagonal movement
+        coroutineScope {
+            launch {
+                paddingBottom.animateTo(
+                    targetValue = 440f,
+                    animationSpec = tween(500)
+                )
+            }
+
+            launch {
+                paddingEnd.animateTo(
+                    targetValue = 180f,
+                    animationSpec = tween(500)
+                )
+            }
+        }
 
         // Return to original position
         delay(200)
-        paddingBottom.animateTo(
-            targetValue = 330f,
-            animationSpec = tween(300)
-        )
-        
-        paddingEnd.animateTo(
-            targetValue = 140f,
-            animationSpec = tween(300)
-        )
+        coroutineScope {
+            launch {
+                paddingBottom.animateTo(
+                    targetValue = 330f,
+                    animationSpec = tween(300)
+                )
+            }
+            
+            launch {
+                paddingEnd.animateTo(
+                    targetValue = 140f,
+                    animationSpec = tween(300)
+                )
+            }
+        }
     }
 } 
