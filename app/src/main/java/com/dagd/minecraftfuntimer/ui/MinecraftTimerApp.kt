@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -357,8 +358,10 @@ private fun RenderTnt() {
             .zIndex(12f),
         contentAlignment = Alignment.BottomStart
     ) {
+        val context = LocalContext.current
         Tnt(
-            modifier = Modifier.size(60.dp)
+            modifier = Modifier.size(60.dp),
+            context = context
         )
     }
 }
