@@ -12,6 +12,7 @@ class SoundPlayer(private val context: Context) {
     private var tickingSound: MediaPlayer? = null
     private var explosionSound: MediaPlayer? = null
     private var creeperSound: MediaPlayer? = null
+    private var cloudSound: MediaPlayer? = null
     
     /**
      * Plays the TNT ticking/detonation sound
@@ -56,12 +57,27 @@ class SoundPlayer(private val context: Context) {
     }
     
     /**
+     * Plays the cloud dissolving sound
+     */
+    fun playCloudSound() {
+        releaseCloudSound()
+        cloudSound = MediaPlayer.create(context, R.raw.nubes).apply {
+            setOnCompletionListener { mp ->
+                mp.release()
+                cloudSound = null
+            }
+            start()
+        }
+    }
+    
+    /**
      * Stops and releases sound resources
      */
     fun releaseAll() {
         releaseTickingSound()
         releaseExplosionSound()
         releaseCreeperSound()
+        releaseCloudSound()
     }
     
     private fun releaseTickingSound() {
@@ -86,5 +102,13 @@ class SoundPlayer(private val context: Context) {
             release()
         }
         creeperSound = null
+    }
+    
+    private fun releaseCloudSound() {
+        cloudSound?.apply {
+            if (isPlaying) stop()
+            release()
+        }
+        cloudSound = null
     }
 } 
