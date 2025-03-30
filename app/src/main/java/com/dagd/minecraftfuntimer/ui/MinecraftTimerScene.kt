@@ -1,5 +1,6 @@
 package com.dagd.minecraftfuntimer.ui
 
+import android.content.Context
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.tween
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
+import com.dagd.minecraftfuntimer.audio.SoundPlayer
 import com.dagd.minecraftfuntimer.ui.components.CircularTimer
 import com.dagd.minecraftfuntimer.ui.components.Cloud
 import com.dagd.minecraftfuntimer.ui.components.CloudType
@@ -261,6 +263,10 @@ private fun RenderMountainSurfaces() {
     val scope = rememberCoroutineScope()
     val firstCreeperPaddingBottom = remember { Animatable(100f) }
     val secondCreeperPaddingBottom = remember { Animatable(80f) }
+    val context = LocalContext.current
+    val soundPlayer = remember { SoundPlayer(context) }
+    val isFirstCreeperAnimating = remember { androidx.compose.runtime.mutableStateOf(false) }
+    val isSecondCreeperAnimating = remember { androidx.compose.runtime.mutableStateOf(false) }
 
     // First mountain surface
     Box(
@@ -274,7 +280,14 @@ private fun RenderMountainSurfaces() {
             modifier = Modifier.size(width = 70.dp, height = 120.dp),
             surfaceType = SurfaceType.TYPE_1,
             onClick = {
-                animateCreeperJump(scope, firstCreeperPaddingBottom, 150f, 100f)
+                animateCreeperJump(
+                    scope, 
+                    firstCreeperPaddingBottom, 
+                    150f, 
+                    100f, 
+                    soundPlayer,
+                    isFirstCreeperAnimating
+                )
             }
         )
     }
@@ -283,7 +296,8 @@ private fun RenderMountainSurfaces() {
         alignment = Alignment.BottomStart,
         paddingStart = 10,
         paddingBottom = firstCreeperPaddingBottom.value.toInt(),
-        zIndex = 9f
+        zIndex = 9f,
+        size = 120
     )
 
     // Second mountain surface
@@ -298,7 +312,14 @@ private fun RenderMountainSurfaces() {
             modifier = Modifier.size(width = 50.dp, height = 80.dp),
             surfaceType = SurfaceType.TYPE_2,
             onClick = {
-                animateCreeperJump(scope, firstCreeperPaddingBottom, 150f, 100f)
+                animateCreeperJump(
+                    scope, 
+                    firstCreeperPaddingBottom, 
+                    150f, 
+                    100f, 
+                    soundPlayer,
+                    isFirstCreeperAnimating
+                )
             }
         )
     }
@@ -315,7 +336,14 @@ private fun RenderMountainSurfaces() {
             modifier = Modifier.size(width = 65.dp, height = 100.dp),
             surfaceType = SurfaceType.TYPE_1,
             onClick = {
-                animateCreeperJump(scope, secondCreeperPaddingBottom, 120f, 80f)
+                animateCreeperJump(
+                    scope, 
+                    secondCreeperPaddingBottom, 
+                    120f, 
+                    80f, 
+                    soundPlayer,
+                    isSecondCreeperAnimating
+                )
             }
         )
     }
@@ -324,7 +352,8 @@ private fun RenderMountainSurfaces() {
         alignment = Alignment.BottomStart,
         paddingStart = 70,
         paddingBottom = secondCreeperPaddingBottom.value.toInt(),
-        zIndex = 9f
+        zIndex = 9f,
+        size = 120
     )
 
     // Fourth mountain surface
@@ -339,7 +368,14 @@ private fun RenderMountainSurfaces() {
             modifier = Modifier.size(width = 50.dp, height = 80.dp),
             surfaceType = SurfaceType.TYPE_2,
             onClick = {
-                animateCreeperJump(scope, secondCreeperPaddingBottom, 120f, 80f)
+                animateCreeperJump(
+                    scope, 
+                    secondCreeperPaddingBottom, 
+                    120f, 
+                    80f, 
+                    soundPlayer,
+                    isSecondCreeperAnimating
+                )
             }
         )
     }
@@ -405,20 +441,35 @@ private fun animateCreeperJump(
     scope: CoroutineScope,
     creeperPaddingBottom: Animatable<Float, AnimationVector1D>,
     jumpHeight: Float,
-    restingHeight: Float
+    restingHeight: Float,
+    soundPlayer: SoundPlayer? = null,
+    isAnimating: androidx.compose.runtime.MutableState<Boolean>
 ) {
+    // Only proceed if the creeper is not already animating
+    if (isAnimating.value) return
+    
+    isAnimating.value = true
+    
     scope.launch {
-        // Animate creeper moving up - slowed down by 30%
-        creeperPaddingBottom.animateTo(
-            targetValue = jumpHeight,
-            animationSpec = tween(650)  // Was 500, increased by 30%
-        )
-        // Wait a moment - also increased by 30%
-        kotlinx.coroutines.delay(650)  // Was 500, increased by 30%
-        // Animate creeper moving back down - slowed down by 30%
-        creeperPaddingBottom.animateTo(
-            targetValue = restingHeight,
-            animationSpec = tween(650)  // Was 500, increased by 30%
-        )
+        try {
+            // Play the sound when the creeper starts to appear
+            soundPlayer?.playCreeperSound()
+            
+            // Animate creeper moving up - slowed down by 30%
+            creeperPaddingBottom.animateTo(
+                targetValue = jumpHeight,
+                animationSpec = tween(650)  // Was 500, increased by 30%
+            )
+            // Wait a moment - also increased by 30%
+            kotlinx.coroutines.delay(650)  // Was 500, increased by 30%
+            // Animate creeper moving back down - slowed down by 30%
+            creeperPaddingBottom.animateTo(
+                targetValue = restingHeight,
+                animationSpec = tween(650)  // Was 500, increased by 30%
+            )
+        } finally {
+            // Always reset the animation state, even if the animation is cancelled
+            isAnimating.value = false
+        }
     }
 }

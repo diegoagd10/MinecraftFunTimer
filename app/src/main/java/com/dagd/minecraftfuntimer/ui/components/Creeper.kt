@@ -25,7 +25,7 @@ import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 fun Creeper(
     modifier: Modifier = Modifier
 ) {
-    Box (modifier = modifier) {
+    Box(modifier = modifier) {
         // Creeper body
         Image(
             painter = painterResource(id = R.drawable.cuerpo_shon),

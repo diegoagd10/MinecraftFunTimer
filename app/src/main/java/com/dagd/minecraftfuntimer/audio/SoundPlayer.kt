@@ -11,6 +11,7 @@ class SoundPlayer(private val context: Context) {
     
     private var tickingSound: MediaPlayer? = null
     private var explosionSound: MediaPlayer? = null
+    private var creeperSound: MediaPlayer? = null
     
     /**
      * Plays the TNT ticking/detonation sound
@@ -41,11 +42,26 @@ class SoundPlayer(private val context: Context) {
     }
     
     /**
+     * Plays the creeper sound
+     */
+    fun playCreeperSound() {
+        releaseCreeperSound()
+        creeperSound = MediaPlayer.create(context, R.raw.creeper_sound).apply {
+            setOnCompletionListener { mp ->
+                mp.release()
+                creeperSound = null
+            }
+            start()
+        }
+    }
+    
+    /**
      * Stops and releases sound resources
      */
     fun releaseAll() {
         releaseTickingSound()
         releaseExplosionSound()
+        releaseCreeperSound()
     }
     
     private fun releaseTickingSound() {
@@ -62,5 +78,13 @@ class SoundPlayer(private val context: Context) {
             release()
         }
         explosionSound = null
+    }
+    
+    private fun releaseCreeperSound() {
+        creeperSound?.apply {
+            if (isPlaying) stop()
+            release()
+        }
+        creeperSound = null
     }
 } 
