@@ -68,8 +68,7 @@ fun MinecraftTimerScene(
             alignment = Alignment.BottomEnd,
             paddingBottom = 35,
             paddingEnd = 5,
-            zIndex = 10f,
-            size = 120
+            zIndex = 10f
         )
     }
 }
@@ -266,6 +265,13 @@ private fun RenderMountainSurfaces() {
         )
     }
 
+    RenderCreeper(
+        alignment = Alignment.BottomStart,
+        paddingStart = 10,
+        paddingBottom = 150,
+        zIndex = 9f
+    )
+
     // Second mountain surface
     Box(
         modifier = Modifier
@@ -293,6 +299,13 @@ private fun RenderMountainSurfaces() {
             surfaceType = SurfaceType.TYPE_1
         )
     }
+
+    RenderCreeper(
+        alignment = Alignment.BottomStart,
+        paddingStart = 70,
+        paddingBottom = 125,
+        zIndex = 9f
+    )
 
     // Fourth mountain surface
     Box(
@@ -344,20 +357,23 @@ private fun RenderTree() {
 @Composable
 private fun RenderCreeper(
     alignment: Alignment,
-    paddingBottom: Int,
-    paddingEnd: Int,
-    zIndex: Float,
-    size: Int
+    paddingBottom: Int = 0,
+    paddingStart: Int = 0,
+    paddingEnd: Int = 0,
+    zIndex: Float = 0f,
+    size: Int = 120
 ) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = paddingBottom.dp, end = paddingEnd.dp)
+            .padding(bottom = paddingBottom.dp, start = paddingStart.dp, end = paddingEnd.dp)
             .zIndex(zIndex),
         contentAlignment = alignment
     ) {
         Creeper(
-            modifier = Modifier.size(size.dp)
+            modifier = Modifier
+                .size(size.dp)
+                .zIndex(zIndex)
         )
     }
 } 
