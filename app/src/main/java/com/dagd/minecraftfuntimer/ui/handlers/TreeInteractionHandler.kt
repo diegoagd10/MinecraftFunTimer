@@ -167,7 +167,7 @@ object TreeInteractionHandler {
     /**
      * Handles the animation of the blue butterfly
      */
-    suspend fun animateBlueButterfly(
+    private suspend fun animateBlueButterfly(
         paddingBottom: Animatable<Float, AnimationVector1D>,
         paddingEnd: Animatable<Float, AnimationVector1D>
     ) {
@@ -194,14 +194,14 @@ object TreeInteractionHandler {
         coroutineScope {
             launch {
                 paddingBottom.animateTo(
-                    targetValue = 430f,
+                    targetValue = 375f,
                     animationSpec = tween(500)
                 )
             }
 
             launch {
                 paddingEnd.animateTo(
-                    targetValue = 280f,
+                    targetValue = 225f,
                     animationSpec = tween(500)
                 )
             }
@@ -229,7 +229,7 @@ object TreeInteractionHandler {
     /**
      * Handles the animation of the red butterfly
      */
-    suspend fun animateRedButterfly(
+    private suspend fun animateRedButterfly(
         paddingBottom: Animatable<Float, AnimationVector1D>,
         paddingEnd: Animatable<Float, AnimationVector1D>
     ) {
@@ -291,7 +291,7 @@ object TreeInteractionHandler {
     /**
      * Handles the animation of the orange butterfly
      */
-    suspend fun animateOrangeButterfly(paddingEnd: Animatable<Float, AnimationVector1D>) {
+    private suspend fun animateOrangeButterfly(paddingEnd: Animatable<Float, AnimationVector1D>) {
         // First animate both position properties at the same time for diagonal movement
         paddingEnd.animateTo(
             targetValue = 200f,

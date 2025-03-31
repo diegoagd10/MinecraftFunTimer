@@ -21,6 +21,7 @@ import com.dagd.minecraftfuntimer.ui.components.Surface
 import com.dagd.minecraftfuntimer.ui.components.SurfaceType
 import com.dagd.minecraftfuntimer.ui.components.Tnt
 import com.dagd.minecraftfuntimer.ui.components.Tree
+import com.dagd.minecraftfuntimer.ui.components.WalkingCreeper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -214,6 +215,23 @@ fun RenderCreeper(
             modifier = Modifier
                 .size(size.dp)
                 .zIndex(zIndex)
+        )
+    }
+}
+
+@Composable
+fun RenderWalkingCreeper() {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(bottom = 50.dp, end = 10.dp)
+            .zIndex(10f),
+        contentAlignment = Alignment.BottomEnd
+    ) {
+        WalkingCreeper(
+            modifier = Modifier
+                .size(120.dp)
+                .zIndex(10f)
         )
     }
 }

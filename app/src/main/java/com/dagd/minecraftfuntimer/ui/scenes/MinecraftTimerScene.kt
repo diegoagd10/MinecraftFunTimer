@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.dagd.minecraftfuntimer.audio.SoundPlayer
@@ -113,11 +112,6 @@ fun MinecraftTimerScene(
             orangeButterflyPaddingEnd = orangeButterflyPaddingEnd.value.toInt()
         )
 
-        RenderCreeper(
-            alignment = Alignment.BottomEnd,
-            paddingBottom = 50,
-            paddingEnd = 10,
-            zIndex = 10f
-        )
+        RenderWalkingCreeper()
     }
 } 
