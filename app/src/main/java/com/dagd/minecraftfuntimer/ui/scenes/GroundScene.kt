@@ -220,18 +220,20 @@ fun RenderCreeper(
 }
 
 @Composable
-fun RenderWalkingCreeper() {
+fun RenderWalkingCreeper(endPosition: Int, isWalking: MutableState<Boolean>, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .padding(bottom = 50.dp, end = 10.dp)
+            .padding(bottom = 50.dp, end = endPosition.dp)
             .zIndex(10f),
         contentAlignment = Alignment.BottomEnd
     ) {
         WalkingCreeper(
             modifier = Modifier
                 .size(120.dp)
-                .zIndex(10f)
+                .zIndex(10f),
+            isWalking = isWalking,
+            onClick = onClick
         )
     }
 }

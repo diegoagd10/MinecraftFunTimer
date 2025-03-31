@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.dagd.minecraftfuntimer.audio.SoundPlayer
 import com.dagd.minecraftfuntimer.ui.handlers.TreeInteractionHandler
+import com.dagd.minecraftfuntimer.ui.handlers.WalkingCreeperInteractionHandler
 import com.dagd.minecraftfuntimer.ui.timer.TimerState
 
 /**
@@ -28,6 +29,10 @@ fun MinecraftTimerScene(
     onTimerClick: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
+
+    val isCreeperWalking = remember { mutableStateOf(false) }
+    val walkingLeftAnimation = remember { Animatable(10f) }
+
     val yellowButterflyPaddingBottom = remember { Animatable(330f) }
     val purpleButterflyPaddingBottom = remember { Animatable(330f) }
     val purpleButterflyPaddingEnd = remember { Animatable(140f) }
@@ -112,6 +117,17 @@ fun MinecraftTimerScene(
             orangeButterflyPaddingEnd = orangeButterflyPaddingEnd.value.toInt()
         )
 
-        RenderWalkingCreeper()
+        RenderWalkingCreeper(
+            walkingLeftAnimation.value.toInt(),
+            isWalking = isCreeperWalking,
+            onClick = {
+                WalkingCreeperInteractionHandler.onCreeperClick(
+                    scope = scope,
+                    originalPosition = 10f,
+                    isWalking = isCreeperWalking,
+                    walkingLeftAnimation = walkingLeftAnimation,
+                    soundPlayer = soundPlayer
+                )
+            })
     }
 } 
