@@ -26,7 +26,7 @@ object WalkingCreeperInteractionHandler {
 
             walkingLeftAnimation.animateTo(
                 targetValue = 150f,
-                animationSpec = tween(1000)
+                animationSpec = tween(1500)
             )
 
             delay(500)

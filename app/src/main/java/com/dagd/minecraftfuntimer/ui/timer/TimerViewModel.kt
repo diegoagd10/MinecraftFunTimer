@@ -136,8 +136,7 @@ class TimerViewModel : ViewModel() {
     }
 
     fun pauseTimer() {
-        countDownTimer?.cancel()
-        _timerState.update { it.copy(isRunning = false) }
+        // No-op - timer continues running
     }
 
     fun resetTimer() {

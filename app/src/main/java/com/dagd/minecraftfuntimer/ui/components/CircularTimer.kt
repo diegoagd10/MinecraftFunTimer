@@ -1,17 +1,14 @@
 package com.dagd.minecraftfuntimer.ui.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -25,10 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -40,7 +34,7 @@ import com.dagd.minecraftfuntimer.ui.theme.MinecraftFunTimerTheme
 /**
  * A circular timer component displaying a pie chart style progress indicator.
  * The component uses Minecraft-themed colors that are attractive for kids.
- * 
+ *
  * @param modifier The modifier to be applied to the component
  * @param progress The progress of the timer as a value between 0f and 1f
  * @param timeText The text to display below the timer (e.g., "05:00")
@@ -62,12 +56,10 @@ fun CircularTimer(
     onTimeTextClick: () -> Unit = {}
 ) {
     // Define Minecraft-themed colors
-    val lightGray = Color(0xFFAAAAAA) // Light gray for the background
-    val darkGray = Color(0xFF555555) // Dark gray for the border
     val progressColor = Color(0xFF76C922) // Minecraft creeper green for the progress
     val timeTextColor = Color(0xFFFFD700) // Gold/Yellow color for time text - fun and visible
     val completedColor = Color(0xFFFF5722) // Orange/Red for completion state
-    
+
     // Animation for completion state
     val infiniteTransition = rememberInfiniteTransition(label = "completion")
     val scale by infiniteTransition.animateFloat(
@@ -79,14 +71,14 @@ fun CircularTimer(
         ),
         label = "scale"
     )
-    
+
     // Animate progress color change
     val animatedProgressColor by animateColorAsState(
         targetValue = if (isCompleted) completedColor else progressColor,
         animationSpec = tween(500),
         label = "progressColor"
     )
-    
+
     // Apply scale animation only when completed
     val timerModifier = if (isCompleted) {
         Modifier.scale(scale)
@@ -126,7 +118,7 @@ fun CircularTimer(
                 )
             }
         }
-        
+
         // Time text below the circle
         Text(
             text = timeText,

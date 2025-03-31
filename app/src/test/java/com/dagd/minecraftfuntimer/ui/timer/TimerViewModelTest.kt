@@ -103,16 +103,16 @@ class TimerViewModelTest {
     }
 
     @Test
-    fun `pauseTimer should update isRunning flag to false`() = runTest {
+    fun `pauseTimer should be removed and timer should continue running`() = runTest {
         // Given
         viewModel.onTimeSelected(0, 1, 0) // 1 minute
         viewModel.startTimer()
-
-        // When
+        
+        // When pauseTimer is called, it should be a no-op
         viewModel.pauseTimer()
-
-        // Then
-        assertFalse(viewModel.timerState.value.isRunning)
+        
+        // Then timer should still be running
+        assertTrue(viewModel.timerState.value.isRunning)
     }
 
     @Test

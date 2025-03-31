@@ -58,7 +58,7 @@ fun ExplosionParticle(
     // Using a wider range of randomness for more varied particle movement
     val randomFactor = remember { Random.nextFloat() * 0.4f + 0.8f } // Increased from 0.6f to 0.8f for larger distance
     val randomAngleOffset = remember { (Random.nextFloat() - 0.5f) * 15f } // +/- 15 degrees variation
-    val explosionSize = 100f
+    val explosionSize = 250f
     
     // Calculate target position based on trajectory with angle variation
     val (targetX, targetY) = remember {

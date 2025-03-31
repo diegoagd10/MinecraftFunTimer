@@ -90,11 +90,9 @@ fun MinecraftTimerApp(
                 }
             },
             onTimerClick = {
-                // Toggle timer state if we have a valid time
+                // Only allow starting the timer
                 if (timerState.totalTimeMillis > 0) {
-                    if (timerState.isRunning) {
-                        timerViewModel.pauseTimer()
-                    } else {
+                    if (!timerState.isRunning) {
                         timerViewModel.startTimer()
                     }
                 } else if (!showTimerSetup) {

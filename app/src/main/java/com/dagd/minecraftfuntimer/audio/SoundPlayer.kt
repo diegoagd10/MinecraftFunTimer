@@ -34,6 +34,7 @@ class SoundPlayer(private val context: Context) {
         
         releaseTickingSound()
         tickingSound = MediaPlayer.create(context, R.raw.ticking_bomb).apply {
+            setVolume(0.1f, 0.1f)
             setOnCompletionListener { mp ->
                 mp.release()
                 tickingSound = null
@@ -50,6 +51,7 @@ class SoundPlayer(private val context: Context) {
         
         releaseExplosionSound()
         explosionSound = MediaPlayer.create(context, R.raw.a_bomb).apply {
+            setVolume(0.1f, 0.1f)
             setOnCompletionListener { mp ->
                 mp.release()
                 explosionSound = null
@@ -66,6 +68,7 @@ class SoundPlayer(private val context: Context) {
         
         releaseCreeperSound()
         creeperSound = MediaPlayer.create(context, R.raw.creeper_sound).apply {
+            setVolume(0.1f, 0.1f)
             setOnCompletionListener { mp ->
                 mp.release()
                 creeperSound = null
