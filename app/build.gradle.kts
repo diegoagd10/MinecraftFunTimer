@@ -23,6 +23,15 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file("../minecraft_release.keystore")
+            storePassword = System.getenv("KEYSTORE_PASSWORD") ?: "your_keystore_password"
+            keyAlias = "minecraft_key"
+            keyPassword = System.getenv("KEY_PASSWORD") ?: "your_key_password"
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -30,6 +39,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {

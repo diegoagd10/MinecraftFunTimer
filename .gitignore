@@ -43,8 +43,9 @@ captures/
 .idea/caches
 
 # Keystore files
-*.jks
 *.keystore
+*.jks
+keystore_info.md
 
 # Google Services (e.g. APIs or Firebase)
 google-services.json
@@ -64,3 +65,7 @@ lint/intermediates/
 lint/generated/
 lint/outputs/
 lint/tmp/
+
+# macOS system files
+.DS_Store
+**/.DS_Store
